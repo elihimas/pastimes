@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Jogo da velha</string>
+
+    <string name="difficulty_easy">Fácil</string>
+    <string name="difficulty_medium">Médio</string>
+    <string name="difficulty_impossible">Impossível</string>
+    <string name="difficulty_other_player">Jogar com outra pessoa</string>
+</resources>

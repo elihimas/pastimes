@@ -1,0 +1,6 @@
+<resources>
+    <dimen name="x_item_padding">4dp</dimen>
+    <dimen name="o_item_padding">25dp</dimen>
+
+    <dimen name="item_width">7dp</dimen>
+</resources>

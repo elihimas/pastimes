@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".activities.FirstSetupActivity"
+        android:orientation="vertical">
+
+    <Button
+            style="@style/DifficultyButton"
+            android:id="@+id/btEasy"
+            android:enabled="false"
+            android:layout_width="match_parent"
+            android:text="@string/difficulty_easy"/>
+
+    <Button
+            style="@style/DifficultyButton"
+            android:id="@+id/btMedium"
+            android:enabled="false"
+            android:text="@string/difficulty_medium"/>
+
+    <Button
+            style="@style/DifficultyButton"
+            android:id="@+id/btImpossible"
+            android:enabled="false"
+            android:text="@string/difficulty_impossible"/>
+
+    <Button
+            style="@style/DifficultyButton"
+            android:id="@+id/btOtherPlayer"
+            android:text="@string/difficulty_other_player"/>
+</LinearLayout>

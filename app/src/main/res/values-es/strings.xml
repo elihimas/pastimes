@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Ceros Y Cruces</string>
+
+    <string name="difficulty_easy">Fácil</string>
+    <string name="difficulty_medium">Intermedio</string>
+    <string name="difficulty_impossible">Imposible</string>
+    <string name="difficulty_other_player">Jugar con otra persona</string>
+</resources>

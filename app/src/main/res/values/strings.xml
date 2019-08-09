@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Tic-tac-toe</string>
+
+    <string name="difficulty_easy">Easy</string>
+    <string name="difficulty_medium">Medium</string>
+    <string name="difficulty_impossible">Impossible</string>
+    <string name="difficulty_other_player">Play with other person</string>
+</resources>

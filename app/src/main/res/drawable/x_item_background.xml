@@ -1,0 +1,26 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:left="@dimen/x_item_padding"
+          android:right="@dimen/x_item_padding">
+        <rotate
+                android:fromDegrees="135"
+                android:toDegrees="135"
+                android:pivotX="50%"
+                android:pivotY="50%">
+            <shape android:shape="line">
+                <stroke android:width="@dimen/item_width" android:color="@color/letters_color"/>
+            </shape>
+        </rotate>
+    </item>
+    <item android:left="@dimen/x_item_padding"
+          android:right="@dimen/x_item_padding">
+        <rotate
+                android:fromDegrees="45"
+                android:toDegrees="45"
+                android:pivotX="50%"
+                android:pivotY="50%">
+            <shape android:shape="line">
+                <stroke android:width="@dimen/item_width" android:color="@color/letters_color"/>
+            </shape>
+        </rotate>
+    </item>
+</layer-list>
