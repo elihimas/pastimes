@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.view.View
 import com.elihimas.games.pastimes.PastimesApplication
 import com.elihimas.games.pastimes.R
-import com.elihimas.games.pastimes.game.GameMode
+import com.elihimas.games.pastimes.model.GameMode
 import com.elihimas.games.pastimes.preferences.PastimesPreferences
 import kotlinx.android.synthetic.main.activity_dificulty.*
 import javax.inject.Inject

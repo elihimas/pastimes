@@ -1,7 +1,7 @@
 package com.elihimas.games.pastimes.preferences
 
 import android.content.Context
-import com.elihimas.games.pastimes.game.GameMode
+import com.elihimas.games.pastimes.model.GameMode
 import javax.inject.Inject
 
 class PastimesPreferences @Inject constructor(context: Context) {

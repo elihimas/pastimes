@@ -4,5 +4,6 @@
     <color name="colorAccent">#D81B60</color>
 
     <!--todo revisit this color-->
-    <color name="letters_color">#acacac</color>
+    <color name="letter_cell_color">#acacac</color>
+    <color name="empty_cell_color">#dedede</color>
 </resources>

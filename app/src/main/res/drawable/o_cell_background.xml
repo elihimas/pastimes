@@ -4,7 +4,7 @@
           android:top="@dimen/item_padding"
           android:bottom="@dimen/item_padding">
         <shape android:shape="oval">
-            <stroke android:width="@dimen/item_stroke_width" android:color="@color/letters_color"/>
+            <stroke android:width="@dimen/item_stroke_width" android:color="@color/letter_cell_color"/>
         </shape>
     </item>
 </layer-list>
