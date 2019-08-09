@@ -11,19 +11,19 @@ import com.elihimas.games.pastimes.R
 import com.elihimas.games.pastimes.game.CellData
 import com.elihimas.games.pastimes.game.TicTacToeSymbol
 
-class GameCellView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
+class TicTacTorCellView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
 
     private companion object {
-        val START_ANGLE = -180f
-        val END_ANGLE = 180
-        val ANIMATION_DURATION = 2000L
+        const val START_ANGLE = -180f
+        const val END_ANGLE = 180
+        const val ANIMATION_DURATION = 2000L
     }
 
-    private var stroke = context.resources.getDimension(R.dimen.item_stroke_width)
+    private var itemStrokeWidth = context.resources.getDimension(R.dimen.item_stroke_width)
     private var paint = Paint().apply {
         isAntiAlias = true
         style = Paint.Style.STROKE
-        strokeWidth = stroke
+        strokeWidth = itemStrokeWidth
         color = context.resources.getColor(R.color.letter_color)
     }
     private var animationInterpolationValue = 0f
@@ -34,10 +34,10 @@ class GameCellView(context: Context, attrs: AttributeSet?) : View(context, attrs
 
         val drawO = fun() {
             canvas?.drawArc(
-                stroke / 2,
-                stroke / 2,
-                width - stroke / 2,
-                height - stroke / 2,
+                itemStrokeWidth / 2,
+                itemStrokeWidth / 2,
+                width - itemStrokeWidth / 2,
+                height - itemStrokeWidth / 2,
                 START_ANGLE,
                 animationInterpolationValue * END_ANGLE,
                 false,

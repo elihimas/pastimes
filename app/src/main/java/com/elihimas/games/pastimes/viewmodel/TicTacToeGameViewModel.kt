@@ -10,7 +10,7 @@ import com.elihimas.games.pastimes.model.TicTacToeTable
 
 class TicTacToeGameViewModel : ViewModel(), TicTacToeResultPublisher {
 
-    val game = TicTacToeGameController()
+    private val game = TicTacToeGameController()
 
     val ticTacToeTableData = MutableLiveData<TicTacToeTable>()
     val changedCell = MutableLiveData<CellData>()
