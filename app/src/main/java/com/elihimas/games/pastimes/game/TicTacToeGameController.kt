@@ -1,16 +1,18 @@
 package com.elihimas.games.pastimes.game
 
+import com.elihimas.games.pastimes.R
 import com.elihimas.games.pastimes.model.TicTacToeTable
 
 
-enum class Turn(val cellState: TicTacToeSymbol) {
-    FIRST_PLAYER(TicTacToeSymbol.X_SYMBOL), SECOND_PLAYER(TicTacToeSymbol.O_SYMBOL);
+enum class Turn(val cellState: TicTacToeSymbol, val instructionStringResId: Int) {
+    FIRST_PLAYER(TicTacToeSymbol.X_SYMBOL, R.string.instruction_x_turn),
+    SECOND_PLAYER(TicTacToeSymbol.O_SYMBOL, R.string.instruction_o_turn);
 
     fun nextTurn() = if (this == FIRST_PLAYER) SECOND_PLAYER else FIRST_PLAYER
 }
 
-enum class TicTacToeSymbol {
-    EMPTY, X_SYMBOL, O_SYMBOL
+enum class TicTacToeSymbol(val resultMessageResId: Int) {
+    EMPTY(R.string.result_message_draw), X_SYMBOL(R.string.result_x_victory), O_SYMBOL(R.string.result_o_victory)
 }
 
 enum class GameStates {
@@ -25,72 +27,88 @@ class TicTacToeGameController {
     private var currentTurn = Turn.FIRST_PLAYER
 
     private lateinit var gameTable: TicTacToeTable
-    private lateinit var gameResultPublisher: TicTacToeResultPublisher
+    private lateinit var gameStatePublisher: TicTacToeResultPublisher
 
     fun onCellClicked(cellData: CellData) {
         if (state == GameStates.PLAY)
             if (cellData.cellSymbol == TicTacToeSymbol.EMPTY) {
                 cellData.cellSymbol = currentTurn.cellState
-                currentTurn = currentTurn.nextTurn()
 
-                verifyGameVictory()
-                gameResultPublisher.publishCellUpdate(cellData)
+                val winnerSymbol = verifyGameVictory()
+                var nextInstruction: Int
+
+                if (winnerSymbol == null) {
+                    currentTurn = currentTurn.nextTurn()
+                    nextInstruction = currentTurn.instructionStringResId
+                } else {
+                    nextInstruction = winnerSymbol.resultMessageResId
+                }
+                gameStatePublisher.publishCellUpdate(cellData)
+                gameStatePublisher.publishInstruction(nextInstruction)
             }
     }
 
-    private fun List<CellData>.verifyVictoryAndRerturnWinnerSymbol(): TicTacToeSymbol {
+    private fun List<CellData>.verifyVictoryAndReturnWinnerSymbol(): TicTacToeSymbol? {
         val firstCellState = this[0].cellSymbol
+        var hasVictory =
+            firstCellState != TicTacToeSymbol.EMPTY
+                    && firstCellState == this[1].cellSymbol
+                    && firstCellState == this[2].cellSymbol
 
-        return if (firstCellState == this[1].cellSymbol && firstCellState == this[2].cellSymbol) {
+        return if (hasVictory) {
             firstCellState
         } else {
-            TicTacToeSymbol.EMPTY
+            null
         }
     }
 
-    //TODO refactor game verification
-    private fun verifyGameVictory() {
-        var winner = gameTable.firsRow.verifyVictoryAndRerturnWinnerSymbol()
+    //TODO refactor verification
+    //TODO return TicTacToeSymbol.EMPTY if draw
+    private fun verifyGameVictory(): TicTacToeSymbol? {
+        var winnerSymbol = gameTable.firsRow.verifyVictoryAndReturnWinnerSymbol()
 
-        if (winner == TicTacToeSymbol.EMPTY) {
-            winner = gameTable.secondRow.verifyVictoryAndRerturnWinnerSymbol()
+        if (winnerSymbol == null) {
+            winnerSymbol = gameTable.secondRow.verifyVictoryAndReturnWinnerSymbol()
         }
-        if (winner == TicTacToeSymbol.EMPTY) {
-            winner = gameTable.thirdRow.verifyVictoryAndRerturnWinnerSymbol()
-        }
-
-        if (winner == TicTacToeSymbol.EMPTY) {
-            winner = gameTable.firsColumn.verifyVictoryAndRerturnWinnerSymbol()
-        }
-        if (winner == TicTacToeSymbol.EMPTY) {
-            winner = gameTable.secondColumn.verifyVictoryAndRerturnWinnerSymbol()
-        }
-        if (winner == TicTacToeSymbol.EMPTY) {
-            winner = gameTable.thirdColumn.verifyVictoryAndRerturnWinnerSymbol()
+        if (winnerSymbol == null) {
+            winnerSymbol = gameTable.thirdRow.verifyVictoryAndReturnWinnerSymbol()
         }
 
-        if (winner == TicTacToeSymbol.EMPTY) {
-            winner = gameTable.firstDiagonal.verifyVictoryAndRerturnWinnerSymbol()
+        if (winnerSymbol == null) {
+            winnerSymbol = gameTable.firsColumn.verifyVictoryAndReturnWinnerSymbol()
         }
-        if (winner == TicTacToeSymbol.EMPTY) {
-            winner = gameTable.secondDiagonal.verifyVictoryAndRerturnWinnerSymbol()
+        if (winnerSymbol == null) {
+            winnerSymbol = gameTable.secondColumn.verifyVictoryAndReturnWinnerSymbol()
+        }
+        if (winnerSymbol == null) {
+            winnerSymbol = gameTable.thirdColumn.verifyVictoryAndReturnWinnerSymbol()
         }
 
-        if (winner != TicTacToeSymbol.EMPTY) {
+        if (winnerSymbol == null) {
+            winnerSymbol = gameTable.firstDiagonal.verifyVictoryAndReturnWinnerSymbol()
+        }
+        if (winnerSymbol == null) {
+            winnerSymbol = gameTable.secondDiagonal.verifyVictoryAndReturnWinnerSymbol()
+        }
+
+        if (winnerSymbol != null) {
             state = GameStates.FINISHED
-            gameResultPublisher.publishVictory(winner)
         }
+
+        return winnerSymbol
     }
 
     fun configure(ticTacToeResultPublisher: TicTacToeResultPublisher, gameTable: TicTacToeTable) {
-        this.gameResultPublisher = ticTacToeResultPublisher
+        this.gameStatePublisher = ticTacToeResultPublisher
         this.gameTable = gameTable
+
+        this.gameStatePublisher.publishInstruction(R.string.instruction_game_start)
     }
 
     fun reset() {
         gameTable.reset()
         state = GameStates.PLAY
-        gameResultPublisher.publishReset()
+        gameStatePublisher.publishReset()
     }
 
 }

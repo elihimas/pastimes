@@ -6,8 +6,13 @@
     <string name="difficulty_impossible">Impossible</string>
     <string name="difficulty_other_player">Play with other person</string>
 
-    <string name="winner_o_praise_message">Winner: o</string>
-    <string name="winner_x_praise_message">Winner: x</string>
+    <string name="result_x_victory">Winner: X</string>
+    <string name="result_o_victory">Winner: O</string>
+    <string name="result_message_draw">Cat\'s game!</string>
+
+    <string name="instruction_game_start">Touch to start</string>
+    <string name="instruction_o_turn">O turn</string>
+    <string name="instruction_x_turn">X turn</string>
 
     <string name="restart_game">restart game</string>
 </resources>

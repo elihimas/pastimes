@@ -27,12 +27,8 @@ class TicTacToeActivity : BasePastimesActivity() {
         val initViewModel = fun() {
             viewModel = ViewModelProviders.of(this).get(TicTacToeGameViewModel::class.java)
 
-            viewModel.winnerSymbol.observe(this, Observer { winnerSymbol ->
-                when (winnerSymbol) {
-                    TicTacToeSymbol.O_SYMBOL -> tvResults.setText(R.string.winner_o_praise_message)
-                    TicTacToeSymbol.X_SYMBOL -> tvResults.setText(R.string.winner_x_praise_message)
-                    else -> tvResults.text = ""
-                }
+            viewModel.instructionResId.observe(this, Observer { instruction ->
+                tvResults.setText(instruction)
             })
         }
 

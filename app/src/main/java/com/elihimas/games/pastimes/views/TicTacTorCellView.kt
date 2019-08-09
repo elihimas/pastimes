@@ -46,8 +46,6 @@ class TicTacTorCellView(context: Context, attrs: AttributeSet?) : View(context, 
         }
 
         val drawX = fun() {
-            Log.d("drawX", "$animationInterpolationValue ${width * animationInterpolationValue}, ${height * animationInterpolationValue}")
-
             canvas?.drawLine(
                 0f,
                 0f,

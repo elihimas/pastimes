@@ -6,8 +6,13 @@
     <string name="difficulty_impossible">Impossível</string>
     <string name="difficulty_other_player">Jogar com outra pessoa</string>
 
-    <string name="winner_o_praise_message">Vencedor: o</string>
-    <string name="winner_x_praise_message">Vencedor: x</string>
+    <string name="result_o_victory">Vencedor: O</string>
+    <string name="result_x_victory">Vencedor: X</string>
+    <string name="result_message_draw">Deu velha!</string>
+
+    <string name="instruction_game_start">Toque para começar o jogo</string>
+    <string name="instruction_o_turn">Vez de O</string>
+    <string name="instruction_x_turn">Vez de X</string>
 
     <string name="restart_game">reiniciar</string>
 </resources>
