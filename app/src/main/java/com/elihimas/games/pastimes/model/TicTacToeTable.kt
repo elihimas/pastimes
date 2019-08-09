@@ -1,6 +1,6 @@
 package com.elihimas.games.pastimes.model
 
-import com.elihimas.games.pastimes.game.Cell
+import com.elihimas.games.pastimes.game.CellData
 import com.elihimas.games.pastimes.game.TicTacToeSymbol
 
 
@@ -8,7 +8,7 @@ class TicTacToeTable {
 
     val cells = Array(3) { row ->
         Array(3) { column ->
-            Cell(row, column)
+            CellData(row, column)
         }
     }
 
@@ -47,7 +47,7 @@ class TicTacToeTable {
     fun reset() {
         cells.forEach { row ->
             row.forEach { cell ->
-                cell.cellState = TicTacToeSymbol.EMPTY
+                cell.cellSymbol = TicTacToeSymbol.EMPTY
             }
         }
     }

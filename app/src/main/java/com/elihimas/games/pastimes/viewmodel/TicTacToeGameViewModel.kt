@@ -2,20 +2,18 @@ package com.elihimas.games.pastimes.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.elihimas.games.pastimes.PastimesApplication
-import com.elihimas.games.pastimes.game.Cell
+import com.elihimas.games.pastimes.game.CellData
 import com.elihimas.games.pastimes.game.TicTacToeGameController
 import com.elihimas.games.pastimes.game.TicTacToeResultPublisher
 import com.elihimas.games.pastimes.game.TicTacToeSymbol
 import com.elihimas.games.pastimes.model.TicTacToeTable
-import javax.inject.Inject
 
 class TicTacToeGameViewModel : ViewModel(), TicTacToeResultPublisher {
 
     val game = TicTacToeGameController()
 
     val ticTacToeTableData = MutableLiveData<TicTacToeTable>()
-    val changedCell = MutableLiveData<Cell>()
+    val changedCell = MutableLiveData<CellData>()
     val winnerSymbol = MutableLiveData<TicTacToeSymbol>()
 
     init {
@@ -25,13 +23,16 @@ class TicTacToeGameViewModel : ViewModel(), TicTacToeResultPublisher {
         game.configure(this, ticTacToeTable)
     }
 
-    fun onCellClicked(cell: Cell) {
-        game.onCellClicked(cell)
-        changedCell.value = cell
+    fun onCellClicked(cellData: CellData) {
+        game.onCellClicked(cellData)
     }
 
     override fun publishVictory(winner: TicTacToeSymbol) {
         winnerSymbol.value = winner
+    }
+
+    override fun publishCellUpdate(cellData: CellData) {
+        changedCell.value = cellData
     }
 
     override fun publishReset() {

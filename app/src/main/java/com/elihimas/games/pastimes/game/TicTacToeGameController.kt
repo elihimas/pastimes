@@ -10,15 +10,15 @@ enum class Turn(val cellState: TicTacToeSymbol) {
     fun nextTurn() = if (this == FIRST_PLAYER) SECOND_PLAYER else FIRST_PLAYER
 }
 
-enum class TicTacToeSymbol(val cellResId: Int) {
-    EMPTY(R.drawable.empty_cell_background), X_SYMBOL(R.drawable.x_cell_background), O_SYMBOL(R.drawable.o_cell_background);
+enum class TicTacToeSymbol {
+    EMPTY, X_SYMBOL, O_SYMBOL
 }
 
 enum class GameStates {
     PLAY, FINISHED
 }
 
-data class Cell(val row: Int, val column: Int, var cellState: TicTacToeSymbol = TicTacToeSymbol.EMPTY)
+data class CellData(val row: Int, val column: Int, var cellSymbol: TicTacToeSymbol = TicTacToeSymbol.EMPTY)
 
 class TicTacToeGameController {
 
@@ -28,20 +28,21 @@ class TicTacToeGameController {
     lateinit var gameTable: TicTacToeTable
     lateinit var gameResultPublisher: TicTacToeResultPublisher
 
-    fun onCellClicked(cell: Cell) {
+    fun onCellClicked(cellData: CellData) {
         if (state == GameStates.PLAY)
-            if (cell.cellState == TicTacToeSymbol.EMPTY) {
-                cell.cellState = currentTurn.cellState
+            if (cellData.cellSymbol == TicTacToeSymbol.EMPTY) {
+                cellData.cellSymbol = currentTurn.cellState
                 currentTurn = currentTurn.nextTurn()
 
                 verifyEndGame()
+                gameResultPublisher.publishCellUpdate(cellData)
             }
     }
 
-    private fun List<Cell>.getWinnerSymbol(): TicTacToeSymbol {
-        val firstCellState = this[0].cellState
+    private fun List<CellData>.getWinnerSymbol(): TicTacToeSymbol {
+        val firstCellState = this[0].cellSymbol
 
-        return if (firstCellState == this[1].cellState && firstCellState == this[2].cellState) {
+        return if (firstCellState == this[1].cellSymbol && firstCellState == this[2].cellSymbol) {
             firstCellState
         } else {
             TicTacToeSymbol.EMPTY
