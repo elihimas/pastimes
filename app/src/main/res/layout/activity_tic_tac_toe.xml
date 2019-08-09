@@ -25,7 +25,7 @@
 
     <Button
             android:id="@+id/btReset"
-            android:text="@string/reset"
+            android:text="@string/restart_game"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintLeft_toLeftOf="parent"
