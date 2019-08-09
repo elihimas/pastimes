@@ -10,7 +10,7 @@
     <string name="result_x_victory">Ganador: x</string>
     <string name="result_message_draw">Empate!</string>
 
-    <string name="instruction_game_start">Haz clic para empezar</string>
+    <string name="instruction_game_start">Toca para empezar</string>
     <string name="instruction_o_turn">Turno del O</string>
     <string name="instruction_x_turn">Turno del X</string>
 

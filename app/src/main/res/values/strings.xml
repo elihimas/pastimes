@@ -14,5 +14,8 @@
     <string name="instruction_o_turn">O turn</string>
     <string name="instruction_x_turn">X turn</string>
 
+    <string name="score_o" translatable="false">O: %d</string>
+    <string name="score_x" translatable="false">X: %d</string>
+
     <string name="restart_game">restart game</string>
 </resources>

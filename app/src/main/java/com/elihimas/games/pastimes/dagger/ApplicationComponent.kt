@@ -5,6 +5,7 @@ import com.elihimas.games.pastimes.activities.FirstSetupActivity
 import com.elihimas.games.pastimes.activities.BasePastimesActivity
 import com.elihimas.games.pastimes.activities.StarterActivity
 import com.elihimas.games.pastimes.activities.TicTacToeActivity
+import com.elihimas.games.pastimes.game.TicTacToeGameController
 import com.elihimas.games.pastimes.viewmodel.TicTacToeGameViewModel
 import dagger.Component
 import javax.inject.Singleton
@@ -23,4 +24,5 @@ interface ApplicationComponent {
     fun inject(loginActivity: StarterActivity)
     fun inject(firstSetupActivity: FirstSetupActivity)
     fun inject(ticTacToeActivity: TicTacToeActivity)
+    fun inject(ticTacToeGameController: TicTacToeGameController)
 }

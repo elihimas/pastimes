@@ -1,7 +1,10 @@
 package com.elihimas.games.pastimes.game
 
+import com.elihimas.games.pastimes.PastimesApplication
 import com.elihimas.games.pastimes.R
 import com.elihimas.games.pastimes.model.TicTacToeTable
+import com.elihimas.games.pastimes.preferences.PastimesPreferences
+import javax.inject.Inject
 
 
 enum class Turn(val cellState: TicTacToeSymbol, val instructionStringResId: Int) {
@@ -21,13 +24,22 @@ enum class GameStates {
 
 data class CellData(val row: Int, val column: Int, var cellSymbol: TicTacToeSymbol = TicTacToeSymbol.EMPTY)
 
+data class Score(val xVictoryCount: Int, val oVictoryCount: Int)
+
 class TicTacToeGameController {
+
+    @Inject
+    lateinit var preferences: PastimesPreferences
 
     private var state: GameStates = GameStates.PLAY
     private var currentTurn = Turn.FIRST_PLAYER
 
     private lateinit var gameTable: TicTacToeTable
     private lateinit var gameStatePublisher: TicTacToeResultPublisher
+
+    init {
+        PastimesApplication.appComponent.inject(this)
+    }
 
     fun onCellClicked(cellData: CellData) {
         if (state == GameStates.PLAY)
@@ -41,6 +53,19 @@ class TicTacToeGameController {
                     currentTurn = currentTurn.nextTurn()
                     nextInstruction = currentTurn.instructionStringResId
                 } else {
+                    var xVictoryCount = preferences.getXVictoryCount()
+                    var oVictoryCount = preferences.getOVictoryCount()
+
+                    if (winnerSymbol == TicTacToeSymbol.X_SYMBOL) {
+                        xVictoryCount++
+                        preferences.setXVictoryCount(xVictoryCount)
+                    } else if (winnerSymbol == TicTacToeSymbol.O_SYMBOL) {
+                        oVictoryCount++
+                        preferences.setOVictoryCount(oVictoryCount)
+                    }
+
+                    gameStatePublisher.publishScore(Score(xVictoryCount, oVictoryCount))
+
                     nextInstruction = winnerSymbol.resultMessageResId
                 }
                 gameStatePublisher.publishCellUpdate(cellData)
@@ -99,10 +124,15 @@ class TicTacToeGameController {
     }
 
     fun configure(ticTacToeResultPublisher: TicTacToeResultPublisher, gameTable: TicTacToeTable) {
-        this.gameStatePublisher = ticTacToeResultPublisher
         this.gameTable = gameTable
+        gameStatePublisher = ticTacToeResultPublisher
 
-        this.gameStatePublisher.publishInstruction(R.string.instruction_game_start)
+        gameStatePublisher.publishInstruction(R.string.instruction_game_start)
+
+        val xVictoryCount = preferences.getXVictoryCount()
+        val oVictoryCount = preferences.getOVictoryCount()
+
+        gameStatePublisher.publishScore(Score(xVictoryCount, oVictoryCount))
     }
 
     fun reset() {

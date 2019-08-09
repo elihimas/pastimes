@@ -5,7 +5,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.elihimas.games.pastimes.PastimesApplication
 import com.elihimas.games.pastimes.R
-import com.elihimas.games.pastimes.game.TicTacToeSymbol
 import com.elihimas.games.pastimes.viewmodel.TicTacToeGameViewModel
 import kotlinx.android.synthetic.main.activity_tic_tac_toe.*
 
@@ -27,8 +26,12 @@ class TicTacToeActivity : BasePastimesActivity() {
         val initViewModel = fun() {
             viewModel = ViewModelProviders.of(this).get(TicTacToeGameViewModel::class.java)
 
+            viewModel.score.observe(this, Observer { score ->
+                tvScoreX.text = this.getString(R.string.score_x, score.xVictoryCount)
+                tvScoreO.text = this.getString(R.string.score_o, score.oVictoryCount)
+            })
             viewModel.instructionResId.observe(this, Observer { instruction ->
-                tvResults.setText(instruction)
+                tvInstructions.setText(instruction)
             })
         }
 
