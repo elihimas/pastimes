@@ -6,8 +6,8 @@
     <string name="difficulty_impossible">Impossível</string>
     <string name="difficulty_other_player">Jogar com outra pessoa</string>
 
-    <string name="winner_o_praise_message">Winner: o</string>
-    <string name="winner_x_praise_message">Winner: x</string>
+    <string name="winner_o_praise_message">Vencedor: o</string>
+    <string name="winner_x_praise_message">Vencedor: x</string>
 
     <string name="restart_game">reiniciar</string>
 </resources>
