@@ -1,12 +1,8 @@
 package com.elihimas.games.pastimes.model
 
-import com.elihimas.games.pastimes.R
+import com.elihimas.games.pastimes.game.Cell
+import com.elihimas.games.pastimes.game.TicTacToeSymbol
 
-enum class CellState(val cellResId: Int) {
-    EMPTY(R.drawable.empty_cell_background), X_SELECTED(R.drawable.x_cell_background), O_SELECTED(R.drawable.o_cell_background);
-}
-
-data class Cell(val row: Int, val column: Int, var cellState: CellState = CellState.EMPTY)
 
 class TicTacToeTable {
 
@@ -16,4 +12,43 @@ class TicTacToeTable {
         }
     }
 
+    val firsRow by lazy {
+        listOf(cells[0][0], cells[0][1], cells[0][2])
+    }
+
+    val secondRow by lazy {
+        listOf(cells[1][0], cells[1][1], cells[1][2])
+    }
+
+    val thirdRow by lazy {
+        listOf(cells[2][0], cells[2][1], cells[2][2])
+    }
+
+    val firsColumn by lazy {
+        listOf(cells[0][0], cells[1][0], cells[2][0])
+    }
+
+    val secondColumn by lazy {
+        listOf(cells[0][1], cells[1][1], cells[2][1])
+    }
+
+    val thirdColumn by lazy {
+        listOf(cells[0][2], cells[1][2], cells[2][2])
+    }
+
+    val firstDiagonal by lazy {
+        listOf(cells[0][0], cells[1][1], cells[2][2])
+    }
+
+    val secondDiagonal by lazy {
+        listOf(cells[0][2], cells[1][1], cells[2][0])
+    }
+
+    fun reset() {
+        cells.forEach { row ->
+            row.forEach { cell ->
+                cell.cellState = TicTacToeSymbol.EMPTY
+            }
+        }
+    }
 }

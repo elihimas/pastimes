@@ -5,4 +5,9 @@
     <string name="difficulty_medium">Intermedio</string>
     <string name="difficulty_impossible">Imposible</string>
     <string name="difficulty_other_player">Jugar con otra persona</string>
+
+    <string name="winner_o_prayse_message">Winner: o</string>
+    <string name="winner_x_prayse_message">Winner: x</string>
+
+    <string name="reset">reset game</string>
 </resources>

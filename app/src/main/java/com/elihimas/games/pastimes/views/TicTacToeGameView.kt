@@ -9,7 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.elihimas.games.pastimes.R
 import com.elihimas.games.pastimes.activities.BasePastimesActivity
-import com.elihimas.games.pastimes.model.Cell
+import com.elihimas.games.pastimes.game.Cell
 import com.elihimas.games.pastimes.model.TicTacToeTable
 import com.elihimas.games.pastimes.viewmodel.TicTacToeGameViewModel
 import kotlinx.android.synthetic.main.tic_tac_toe_game_view.view.*
@@ -26,7 +26,7 @@ class TicTacToeGameView(context: Context, attrs: AttributeSet?) : FrameLayout(co
         LayoutInflater.from(context).inflate(R.layout.tic_tac_toe_game_view, this, true)
 
         viewModel = ViewModelProviders.of(activity).get(TicTacToeGameViewModel::class.java)
-        viewModel.ticTacToeTable.observe(activity, Observer { table ->
+        viewModel.ticTacToeTableData.observe(activity, Observer { table ->
             initCells(table)
         })
         viewModel.changedCell.observe(activity, Observer { changedCell ->
@@ -39,17 +39,22 @@ class TicTacToeGameView(context: Context, attrs: AttributeSet?) : FrameLayout(co
         cells[cellIndex].setBackgroundResource(changedCell.cellState.cellResId)
     }
 
+    private fun View.initCell(cell: Cell) {
+        tag = cell
+        setBackgroundResource(cell.cellState.cellResId)
+    }
+
     private fun initCells(table: TicTacToeTable) {
         cells = listOf(
-            cell00.apply { tag = table.cells[0][0] },
-            cell01.apply { tag = table.cells[0][1] },
-            cell02.apply { tag = table.cells[0][2] },
-            cell10.apply { tag = table.cells[1][0] },
-            cell11.apply { tag = table.cells[1][1] },
-            cell12.apply { tag = table.cells[1][2] },
-            cell20.apply { tag = table.cells[2][0] },
-            cell21.apply { tag = table.cells[2][1] },
-            cell22.apply { tag = table.cells[2][2] }
+            cell00.apply { initCell(table.cells[0][0]) },
+            cell01.apply { initCell(table.cells[0][1]) },
+            cell02.apply { initCell(table.cells[0][2]) },
+            cell10.apply { initCell(table.cells[1][0]) },
+            cell11.apply { initCell(table.cells[1][1]) },
+            cell12.apply { initCell(table.cells[1][2]) },
+            cell20.apply { initCell(table.cells[2][0]) },
+            cell21.apply { initCell(table.cells[2][1]) },
+            cell22.apply { initCell(table.cells[2][2]) }
         )
         cells.forEach { view ->
             view.setOnClickListener(this)
