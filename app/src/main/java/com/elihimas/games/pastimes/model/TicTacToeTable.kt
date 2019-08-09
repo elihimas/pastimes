@@ -16,13 +16,4 @@ class TicTacToeTable {
         }
     }
 
-
-    fun onCellClicked(cell: Cell) {
-        cell.cellState = when (cell.cellState) {
-            CellState.EMPTY -> CellState.X_SELECTED
-            CellState.X_SELECTED -> CellState.O_SELECTED
-            CellState.O_SELECTED -> CellState.EMPTY
-        }
-    }
-
 }
