@@ -13,8 +13,7 @@ import javax.inject.Singleton
 @Component(
     modules = [
         AppModule::class,
-        SettingsModule::class,
-        GamesModule::class
+        SettingsModule::class
     ]
 )
 interface ApplicationComponent {
@@ -24,5 +23,4 @@ interface ApplicationComponent {
     fun inject(loginActivity: StarterActivity)
     fun inject(firstSetupActivity: FirstSetupActivity)
     fun inject(ticTacToeActivity: TicTacToeActivity)
-    fun inject(ticTacToeGameViewModel: TicTacToeGameViewModel)
 }

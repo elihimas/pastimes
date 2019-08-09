@@ -11,17 +11,14 @@ import com.elihimas.games.pastimes.model.TicTacToeTable
 import javax.inject.Inject
 
 class TicTacToeGameViewModel : ViewModel(), TicTacToeResultPublisher {
-    @Inject
-    lateinit var game: TicTacToeGameController
+
+    val game = TicTacToeGameController()
 
     val ticTacToeTableData = MutableLiveData<TicTacToeTable>()
-
     val changedCell = MutableLiveData<Cell>()
     val winnerSymbol = MutableLiveData<TicTacToeSymbol>()
 
     init {
-        PastimesApplication.appComponent.inject(this)
-
         val ticTacToeTable = TicTacToeTable()
         ticTacToeTableData.value = ticTacToeTable
 
@@ -33,11 +30,16 @@ class TicTacToeGameViewModel : ViewModel(), TicTacToeResultPublisher {
         changedCell.value = cell
     }
 
-    override fun publish(winner: TicTacToeSymbol) {
+    override fun publishVictory(winner: TicTacToeSymbol) {
         winnerSymbol.value = winner
     }
 
-    override fun reset() {
+    override fun publishReset() {
+        winnerSymbol.value = TicTacToeSymbol.EMPTY
         ticTacToeTableData.value = ticTacToeTableData.value
+    }
+
+    fun reset() {
+        game.reset()
     }
 }

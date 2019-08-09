@@ -1,7 +1,6 @@
 package com.elihimas.games.pastimes.activities
 
 import android.os.Bundle
-import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.elihimas.games.pastimes.PastimesApplication
@@ -14,8 +13,7 @@ import javax.inject.Inject
 
 class TicTacToeActivity : BasePastimesActivity() {
 
-    @Inject
-    lateinit var game: TicTacToeGameController
+    private lateinit var viewModel: TicTacToeGameViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,16 +27,14 @@ class TicTacToeActivity : BasePastimesActivity() {
             btReset.setOnClickListener { reset() }
         }
         val initViewModel = fun() {
-            val viewModel = ViewModelProviders.of(this).get(TicTacToeGameViewModel::class.java)
+            viewModel = ViewModelProviders.of(this).get(TicTacToeGameViewModel::class.java)
 
             viewModel.winnerSymbol.observe(this, Observer { winnerSymbol ->
-                val winnerTextResId = if (winnerSymbol == TicTacToeSymbol.O_SYMBOL) {
-                    R.string.winner_o_prayse_message
-                } else {
-                    R.string.winner_x_prayse_message
+                when (winnerSymbol) {
+                    TicTacToeSymbol.O_SYMBOL -> tvResults.setText(R.string.winner_o_prayse_message)
+                    TicTacToeSymbol.X_SYMBOL -> tvResults.setText(R.string.winner_x_prayse_message)
+                    else -> tvResults.text = ""
                 }
-
-                tvResults.setText(winnerTextResId)
             })
         }
 
@@ -47,7 +43,7 @@ class TicTacToeActivity : BasePastimesActivity() {
     }
 
     private fun reset() {
-        game.reset()
+        viewModel.reset()
     }
 
     override fun injectDagger() {

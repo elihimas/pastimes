@@ -2,7 +2,6 @@ package com.elihimas.games.pastimes.game
 
 import com.elihimas.games.pastimes.R
 import com.elihimas.games.pastimes.model.TicTacToeTable
-import javax.inject.Inject
 
 
 enum class Turn(val cellState: TicTacToeSymbol) {
@@ -21,7 +20,7 @@ enum class GameStates {
 
 data class Cell(val row: Int, val column: Int, var cellState: TicTacToeSymbol = TicTacToeSymbol.EMPTY)
 
-class TicTacToeGameController @Inject constructor() {
+class TicTacToeGameController {
 
     private var state: GameStates = GameStates.PLAY
     var currentTurn = Turn.FIRST_PLAYER
@@ -78,7 +77,7 @@ class TicTacToeGameController @Inject constructor() {
 
         if (winner != TicTacToeSymbol.EMPTY) {
             state = GameStates.FINISHED
-            gameResultPublisher.publish(winner)
+            gameResultPublisher.publishVictory(winner)
         }
     }
 
@@ -90,7 +89,7 @@ class TicTacToeGameController @Inject constructor() {
     fun reset() {
         gameTable.reset()
         state = GameStates.PLAY
-        gameResultPublisher.reset()
+        gameResultPublisher.publishReset()
     }
 
 }
