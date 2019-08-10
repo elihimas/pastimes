@@ -90,34 +90,17 @@ class TicTacToeGameController {
         }
     }
 
-    //TODO refactor verification
     //TODO return TicTacToeSymbol.EMPTY if draw
     private fun verifyGameVictoryAndGetWinnerSymbol(): TicTacToeSymbol? {
-        var winnerSymbol = gameTable.firsRow.verifyVictoryAndReturnWinnerSymbol()
-
-        if (winnerSymbol == null) {
-            winnerSymbol = gameTable.secondRow.verifyVictoryAndReturnWinnerSymbol()
-        }
-        if (winnerSymbol == null) {
-            winnerSymbol = gameTable.thirdRow.verifyVictoryAndReturnWinnerSymbol()
-        }
-
-        if (winnerSymbol == null) {
-            winnerSymbol = gameTable.firsColumn.verifyVictoryAndReturnWinnerSymbol()
-        }
-        if (winnerSymbol == null) {
-            winnerSymbol = gameTable.secondColumn.verifyVictoryAndReturnWinnerSymbol()
-        }
-        if (winnerSymbol == null) {
-            winnerSymbol = gameTable.thirdColumn.verifyVictoryAndReturnWinnerSymbol()
-        }
-
-        if (winnerSymbol == null) {
-            winnerSymbol = gameTable.firstDiagonal.verifyVictoryAndReturnWinnerSymbol()
-        }
-        if (winnerSymbol == null) {
-            winnerSymbol = gameTable.secondDiagonal.verifyVictoryAndReturnWinnerSymbol()
-        }
+        var winnerSymbol =
+            gameTable.firsRow.verifyVictoryAndReturnWinnerSymbol()
+                ?: gameTable.secondRow.verifyVictoryAndReturnWinnerSymbol()
+                ?: gameTable.thirdRow.verifyVictoryAndReturnWinnerSymbol()
+                ?: gameTable.firsColumn.verifyVictoryAndReturnWinnerSymbol()
+                ?: gameTable.secondColumn.verifyVictoryAndReturnWinnerSymbol()
+                ?: gameTable.thirdColumn.verifyVictoryAndReturnWinnerSymbol()
+                ?: gameTable.firstDiagonal.verifyVictoryAndReturnWinnerSymbol()
+                ?: gameTable.secondDiagonal.verifyVictoryAndReturnWinnerSymbol()
 
         if (winnerSymbol != null) {
             state = GameStates.FINISHED
