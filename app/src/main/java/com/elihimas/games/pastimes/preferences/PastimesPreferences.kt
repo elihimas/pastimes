@@ -1,7 +1,7 @@
 package com.elihimas.games.pastimes.preferences
 
 import android.content.Context
-import com.elihimas.games.pastimes.model.GameMode
+import com.elihimas.games.pastimes.game.GameMode
 import javax.inject.Inject
 
 class PastimesPreferences @Inject constructor(context: Context) {
@@ -20,9 +20,9 @@ class PastimesPreferences @Inject constructor(context: Context) {
 
     fun setFirstTimeFalse() = preferences.edit().putBoolean(PREF_IS_FIRST_TIME, false).commit()
 
-    fun getMode() = GameMode.values()[preferences.getInt(PREF_GAME_MODE, GameMode.MEDIUM.ordinal)]
+    fun getMode() = GameMode.findModeById(preferences.getInt(PREF_GAME_MODE, GameMode.MEDIUM.id))
 
-    fun setMode(mode: GameMode) = preferences.edit().putInt(PREF_GAME_MODE, mode.ordinal).commit()
+    fun setMode(mode: GameMode) = preferences.edit().putInt(PREF_GAME_MODE, mode.id).commit()
 
     fun getXVictoryCount() = preferences.getInt(PREF_X_VICTORY_COUNT, 0)
     fun getOVictoryCount() = preferences.getInt(PREF_O_VICTORY_COUNT, 0)
