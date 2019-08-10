@@ -10,20 +10,17 @@
     <Button
             style="@style/DifficultyButton"
             android:id="@+id/btEasy"
-            android:enabled="false"
             android:layout_width="match_parent"
             android:text="@string/difficulty_easy"/>
 
     <Button
             style="@style/DifficultyButton"
             android:id="@+id/btMedium"
-            android:enabled="false"
             android:text="@string/difficulty_medium"/>
 
     <Button
             style="@style/DifficultyButton"
             android:id="@+id/btImpossible"
-            android:enabled="false"
             android:text="@string/difficulty_impossible"/>
 
     <Button

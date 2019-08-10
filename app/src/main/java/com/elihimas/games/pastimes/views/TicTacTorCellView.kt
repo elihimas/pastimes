@@ -5,11 +5,10 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.util.AttributeSet
-import android.util.Log
 import android.view.View
 import com.elihimas.games.pastimes.R
 import com.elihimas.games.pastimes.game.CellData
-import com.elihimas.games.pastimes.game.TicTacToeSymbol
+import com.elihimas.games.pastimes.model.TicTacToeSymbol
 
 class TicTacTorCellView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
 
@@ -86,7 +85,7 @@ class TicTacTorCellView(context: Context, attrs: AttributeSet?) : View(context, 
 
         if (symbol != TicTacToeSymbol.EMPTY) {
             startAnimation()
-        }else{
+        } else {
             invalidate()
         }
     }
@@ -95,4 +94,6 @@ class TicTacTorCellView(context: Context, attrs: AttributeSet?) : View(context, 
         tag = cellData
         setSymbolAndAnimate(TicTacToeSymbol.EMPTY)
     }
+
+    fun getCellData(): CellData = tag as CellData
 }

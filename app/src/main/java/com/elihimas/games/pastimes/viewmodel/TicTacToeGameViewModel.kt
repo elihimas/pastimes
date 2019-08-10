@@ -3,7 +3,11 @@ package com.elihimas.games.pastimes.viewmodel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.elihimas.games.pastimes.R
-import com.elihimas.games.pastimes.game.*
+import com.elihimas.games.pastimes.game.CellData
+import com.elihimas.games.pastimes.game.Score
+import com.elihimas.games.pastimes.game.TicTacToeGameController
+import com.elihimas.games.pastimes.game.TicTacToeResultPublisher
+import com.elihimas.games.pastimes.model.GameMode
 import com.elihimas.games.pastimes.model.TicTacToeTable
 
 class TicTacToeGameViewModel : ViewModel(), TicTacToeResultPublisher {

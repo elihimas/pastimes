@@ -5,9 +5,9 @@ import android.os.Bundle
 import android.view.View
 import com.elihimas.games.pastimes.PastimesApplication
 import com.elihimas.games.pastimes.R
-import com.elihimas.games.pastimes.game.GameMode
+import com.elihimas.games.pastimes.model.GameMode
 import com.elihimas.games.pastimes.preferences.PastimesPreferences
-import kotlinx.android.synthetic.main.activity_dificulty.*
+import kotlinx.android.synthetic.main.activity_first_setup.*
 import javax.inject.Inject
 
 class FirstSetupActivity : BasePastimesActivity(), View.OnClickListener {
@@ -17,7 +17,7 @@ class FirstSetupActivity : BasePastimesActivity(), View.OnClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_dificulty)
+        setContentView(R.layout.activity_first_setup)
 
         btEasy.setOnClickListener(this)
         btMedium.setOnClickListener(this)
@@ -39,7 +39,7 @@ class FirstSetupActivity : BasePastimesActivity(), View.OnClickListener {
         }
 
         preferences.setMode(mode)
-        preferences.setFirstTimeFalse()
+        preferences.setConfigurationPendingFalse()
 
         startActivity(Intent(this, TicTacToeActivity::class.java))
         finish()

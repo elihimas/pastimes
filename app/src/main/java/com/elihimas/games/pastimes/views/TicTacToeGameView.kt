@@ -17,7 +17,7 @@ import com.elihimas.games.pastimes.model.TicTacToeTable
 import com.elihimas.games.pastimes.viewmodel.TicTacToeGameViewModel
 import kotlinx.android.synthetic.main.tic_tac_toe_game_view.view.*
 
-class TicTacToeGameView(context: Context, attrs: AttributeSet?) : FrameLayout(context, attrs), View.OnClickListener{
+class TicTacToeGameView(context: Context, attrs: AttributeSet?) : FrameLayout(context, attrs), View.OnClickListener {
 
     companion object {
         const val COLUMN_COUNT = 3
@@ -58,7 +58,6 @@ class TicTacToeGameView(context: Context, attrs: AttributeSet?) : FrameLayout(co
 
         cell.setSymbolAndAnimate(changedCellData.cellSymbol)
     }
-
 
     private fun initCells(table: TicTacToeTable) {
         cells = listOf(
@@ -102,7 +101,10 @@ class TicTacToeGameView(context: Context, attrs: AttributeSet?) : FrameLayout(co
     }
 
     override fun onClick(source: View?) {
-        viewModel.onCellClicked(source?.tag as CellData)
+        val ticTacTorCellView = source as TicTacTorCellView
+        val cellData = ticTacTorCellView.getCellData()
+
+        viewModel.onCellClicked(cellData)
     }
 
     override fun onDraw(canvas: Canvas?) {
@@ -110,8 +112,8 @@ class TicTacToeGameView(context: Context, attrs: AttributeSet?) : FrameLayout(co
 
         val firstLineY = (height / 3).toFloat()
         val secondLineY = (height * 2 / 3).toFloat()
-        val firstColumnX = (height / 3).toFloat()
-        val secondColumnX = (height * 2 / 3).toFloat()
+        val firstColumnX = (width / 3).toFloat()
+        val secondColumnX = (width * 2 / 3).toFloat()
 
         canvas?.drawLine(0f, firstLineY, width * animationInterpolationValue, firstLineY, paint)
         canvas?.drawLine(0f, secondLineY, width * animationInterpolationValue, secondLineY, paint)
@@ -119,7 +121,7 @@ class TicTacToeGameView(context: Context, attrs: AttributeSet?) : FrameLayout(co
         canvas?.drawLine(secondColumnX, 0f, secondColumnX, width * animationInterpolationValue, paint)
     }
 
-    fun showTableLines() {
+    private fun showTableLines() {
         val anim = ValueAnimator.ofFloat(0f, 100f)
 
         anim.addUpdateListener { valueAnimator ->

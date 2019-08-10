@@ -13,7 +13,7 @@ class StarterActivity : BasePastimesActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val activityToBeStarted = if (preferences.isFirstTime()) {
+        val activityToBeStarted = if (preferences.isConfigurationPending()) {
             FirstSetupActivity::class.java
         } else {
             TicTacToeActivity::class.java
