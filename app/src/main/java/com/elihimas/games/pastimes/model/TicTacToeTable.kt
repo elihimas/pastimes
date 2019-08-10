@@ -1,12 +1,12 @@
 package com.elihimas.games.pastimes.model
 
-import com.elihimas.games.pastimes.game.CellData
+import com.elihimas.games.pastimes.game.TicTacToeCell
 
 class TicTacToeTable {
 
     val cells = Array(3) { row ->
         Array(3) { column ->
-            CellData(row, column)
+            TicTacToeCell(row, column)
         }
     }
 

@@ -7,7 +7,7 @@ import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.View
 import com.elihimas.games.pastimes.R
-import com.elihimas.games.pastimes.game.CellData
+import com.elihimas.games.pastimes.game.TicTacToeCell
 import com.elihimas.games.pastimes.model.TicTacToeSymbol
 
 class TicTacTorCellView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
@@ -90,10 +90,10 @@ class TicTacTorCellView(context: Context, attrs: AttributeSet?) : View(context, 
         }
     }
 
-    fun init(cellData: CellData) {
-        tag = cellData
+    fun init(cell: TicTacToeCell) {
+        tag = cell
         setSymbolAndAnimate(TicTacToeSymbol.EMPTY)
     }
 
-    fun getCellData(): CellData = tag as CellData
+    fun getCellData(): TicTacToeCell = tag as TicTacToeCell
 }

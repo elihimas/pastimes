@@ -3,7 +3,7 @@ package com.elihimas.games.pastimes.viewmodel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.elihimas.games.pastimes.R
-import com.elihimas.games.pastimes.game.CellData
+import com.elihimas.games.pastimes.game.TicTacToeCell
 import com.elihimas.games.pastimes.game.Score
 import com.elihimas.games.pastimes.game.TicTacToeGameController
 import com.elihimas.games.pastimes.game.TicTacToeResultPublisher
@@ -16,7 +16,7 @@ class TicTacToeGameViewModel : ViewModel(), TicTacToeResultPublisher {
 
     val score = MutableLiveData<Score>()
     val ticTacToeTableData = MutableLiveData<TicTacToeTable>()
-    val changedCell = MutableLiveData<CellData>()
+    val changedCell = MutableLiveData<TicTacToeCell>()
     val instructionResId = MutableLiveData<Int>()
 
     init {
@@ -26,8 +26,8 @@ class TicTacToeGameViewModel : ViewModel(), TicTacToeResultPublisher {
         game.configure(this, ticTacToeTable)
     }
 
-    fun onCellClicked(cellData: CellData) {
-        game.onCellClicked(cellData)
+    fun onCellClicked(cell: TicTacToeCell) {
+        game.onCellClicked(cell)
     }
 
     fun setGameMode(gameMode: GameMode) {
@@ -38,8 +38,8 @@ class TicTacToeGameViewModel : ViewModel(), TicTacToeResultPublisher {
         this.score.value = score
     }
 
-    override fun publishCellUpdate(cellData: CellData) {
-        changedCell.value = cellData
+    override fun publishCellUpdate(changedCell: TicTacToeCell) {
+        this.changedCell.value = changedCell
     }
 
     override fun publishReset() {

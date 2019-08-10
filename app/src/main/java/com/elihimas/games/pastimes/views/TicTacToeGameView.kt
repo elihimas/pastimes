@@ -12,7 +12,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.elihimas.games.pastimes.R
 import com.elihimas.games.pastimes.activities.BasePastimesActivity
-import com.elihimas.games.pastimes.game.CellData
+import com.elihimas.games.pastimes.game.TicTacToeCell
 import com.elihimas.games.pastimes.model.TicTacToeTable
 import com.elihimas.games.pastimes.viewmodel.TicTacToeGameViewModel
 import kotlinx.android.synthetic.main.tic_tac_toe_game_view.view.*
@@ -52,11 +52,11 @@ class TicTacToeGameView(context: Context, attrs: AttributeSet?) : FrameLayout(co
         })
     }
 
-    private fun updateCell(changedCellData: CellData) {
-        val cellIndex = changedCellData.row * COLUMN_COUNT + changedCellData.column
+    private fun updateCell(changedCell: TicTacToeCell) {
+        val cellIndex = changedCell.row * COLUMN_COUNT + changedCell.column
         val cell = cells[cellIndex]
 
-        cell.setSymbolAndAnimate(changedCellData.cellSymbol)
+        cell.setSymbolAndAnimate(changedCell.cellSymbol)
     }
 
     private fun initCells(table: TicTacToeTable) {

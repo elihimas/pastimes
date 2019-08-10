@@ -6,7 +6,7 @@ import com.elihimas.games.pastimes.model.*
 import com.elihimas.games.pastimes.preferences.PastimesPreferences
 import javax.inject.Inject
 
-data class CellData(val row: Int, val column: Int, var cellSymbol: TicTacToeSymbol = TicTacToeSymbol.EMPTY)
+data class TicTacToeCell(val row: Int, val column: Int, var cellSymbol: TicTacToeSymbol = TicTacToeSymbol.EMPTY)
 
 data class Score(val xVictoryCount: Int, val oVictoryCount: Int)
 
@@ -20,6 +20,8 @@ class TicTacToeGameController {
     private var gameMode: GameMode
     private lateinit var gameTable: TicTacToeTable
 
+    private var ia = TicTacToeAI()
+
     private lateinit var gameStatePublisher: TicTacToeResultPublisher
 
     init {
@@ -28,9 +30,9 @@ class TicTacToeGameController {
         gameMode = preferences.getMode()
     }
 
-    fun onCellClicked(cellData: CellData, isIAAction: Boolean = false) {
-        if (state == GameStates.PLAY && cellData.cellSymbol == TicTacToeSymbol.EMPTY) {
-            cellData.cellSymbol = currentTurn.cellState
+    fun onCellClicked(cell: TicTacToeCell, isIAAction: Boolean = false) {
+        if (state == GameStates.PLAY && cell.cellSymbol == TicTacToeSymbol.EMPTY) {
+            cell.cellSymbol = currentTurn.cellState
 
             val winnerSymbol = verifyGameVictoryAndGetWinnerSymbol()
             var nextInstruction: Int
@@ -55,7 +57,7 @@ class TicTacToeGameController {
                 nextInstruction = winnerSymbol.resultMessageResId
             }
 
-            gameStatePublisher.publishCellUpdate(cellData)
+            gameStatePublisher.publishCellUpdate(cell)
             gameStatePublisher.publishInstruction(nextInstruction)
 
             if (!isIAAction) {
@@ -66,21 +68,7 @@ class TicTacToeGameController {
 
     private fun performAIActionIfNecessary() {
         if (gameMode != GameMode.OTHER_PLAYER) {
-            var cell: CellData? = null
-            for (row in 0..2) {
-                for (column in 0..2) {
-                    val currentCell = gameTable.cells[row][column]
-                    if (currentCell.cellSymbol == TicTacToeSymbol.EMPTY) {
-                        cell = currentCell
-
-                        break
-                    }
-                }
-
-                if (cell != null) {
-                    break
-                }
-            }
+            val cell = ia.defineCell()
 
             if (cell != null && cell.cellSymbol == TicTacToeSymbol.EMPTY) {
                 onCellClicked(cell, true)
@@ -88,7 +76,7 @@ class TicTacToeGameController {
         }
     }
 
-    private fun List<CellData>.verifyVictoryAndReturnWinnerSymbol(): TicTacToeSymbol? {
+    private fun List<TicTacToeCell>.verifyVictoryAndReturnWinnerSymbol(): TicTacToeSymbol? {
         val firstCellState = this[0].cellSymbol
         var hasVictory =
             firstCellState != TicTacToeSymbol.EMPTY
@@ -141,6 +129,7 @@ class TicTacToeGameController {
     fun configure(ticTacToeResultPublisher: TicTacToeResultPublisher, gameTable: TicTacToeTable) {
         this.gameTable = gameTable
         gameStatePublisher = ticTacToeResultPublisher
+        ia.configure(gameTable, gameMode)
 
         gameStatePublisher.publishInstruction(R.string.instruction_game_start)
 
