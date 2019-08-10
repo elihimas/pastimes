@@ -10,7 +10,7 @@ class TicTacToeTable {
         }
     }
 
-    val firsRow by lazy {
+    val firstRow by lazy {
         listOf(cells[0][0], cells[0][1], cells[0][2])
     }
 
@@ -22,7 +22,7 @@ class TicTacToeTable {
         listOf(cells[2][0], cells[2][1], cells[2][2])
     }
 
-    val firsColumn by lazy {
+    val firstColumn by lazy {
         listOf(cells[0][0], cells[1][0], cells[2][0])
     }
 
@@ -39,7 +39,7 @@ class TicTacToeTable {
     }
 
     val secondDiagonal by lazy {
-        listOf(cells[0][2], cells[1][1], cells[2][0])
+        listOf(cells[2][0], cells[1][1], cells[0][2])
     }
 
     fun reset() {
