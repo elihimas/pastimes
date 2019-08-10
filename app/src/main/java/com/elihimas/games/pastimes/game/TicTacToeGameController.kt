@@ -12,11 +12,16 @@ data class Score(val xVictoryCount: Int, val oVictoryCount: Int)
 
 class TicTacToeGameController {
 
+    private companion object {
+        const val LAST_POSSIBLE_TURN = 9
+    }
+
     @Inject
     lateinit var preferences: PastimesPreferences
 
     private var state: GameStates = GameStates.PLAY
-    private var currentTurn = Turn.FIRST_PLAYER
+    private var playerInTurn = PlayerInTurn.X_PLAYER
+    private var turn = 0
     private var gameMode: GameMode
     private lateinit var gameTable: TicTacToeTable
 
@@ -32,14 +37,15 @@ class TicTacToeGameController {
 
     fun onCellClicked(cell: TicTacToeCell, isIAAction: Boolean = false) {
         if (state == GameStates.PLAY && cell.cellSymbol == TicTacToeSymbol.EMPTY) {
-            cell.cellSymbol = currentTurn.cellState
+            cell.cellSymbol = playerInTurn.cellState
+            turn++
 
             val winnerSymbol = verifyGameVictoryAndGetWinnerSymbol()
             var nextInstruction: Int
 
             if (winnerSymbol == null) {
-                currentTurn = currentTurn.nextTurn()
-                nextInstruction = currentTurn.instructionStringResId
+                playerInTurn = playerInTurn.nextTurn()
+                nextInstruction = playerInTurn.instructionStringResId
             } else {
                 var xVictoryCount = preferences.getXVictoryCount()
                 var oVictoryCount = preferences.getOVictoryCount()
@@ -90,17 +96,20 @@ class TicTacToeGameController {
         }
     }
 
-    //TODO return TicTacToeSymbol.EMPTY if draw
     private fun verifyGameVictoryAndGetWinnerSymbol(): TicTacToeSymbol? {
         var winnerSymbol =
-            gameTable.firsRow.verifyVictoryAndReturnWinnerSymbol()
-                ?: gameTable.secondRow.verifyVictoryAndReturnWinnerSymbol()
-                ?: gameTable.thirdRow.verifyVictoryAndReturnWinnerSymbol()
-                ?: gameTable.firsColumn.verifyVictoryAndReturnWinnerSymbol()
-                ?: gameTable.secondColumn.verifyVictoryAndReturnWinnerSymbol()
-                ?: gameTable.thirdColumn.verifyVictoryAndReturnWinnerSymbol()
-                ?: gameTable.firstDiagonal.verifyVictoryAndReturnWinnerSymbol()
-                ?: gameTable.secondDiagonal.verifyVictoryAndReturnWinnerSymbol()
+            if (turn == LAST_POSSIBLE_TURN) {
+                TicTacToeSymbol.EMPTY
+            } else {
+                gameTable.firsRow.verifyVictoryAndReturnWinnerSymbol()
+                    ?: gameTable.secondRow.verifyVictoryAndReturnWinnerSymbol()
+                    ?: gameTable.thirdRow.verifyVictoryAndReturnWinnerSymbol()
+                    ?: gameTable.firsColumn.verifyVictoryAndReturnWinnerSymbol()
+                    ?: gameTable.secondColumn.verifyVictoryAndReturnWinnerSymbol()
+                    ?: gameTable.thirdColumn.verifyVictoryAndReturnWinnerSymbol()
+                    ?: gameTable.firstDiagonal.verifyVictoryAndReturnWinnerSymbol()
+                    ?: gameTable.secondDiagonal.verifyVictoryAndReturnWinnerSymbol()
+            }
 
         if (winnerSymbol != null) {
             state = GameStates.FINISHED
@@ -123,6 +132,7 @@ class TicTacToeGameController {
     }
 
     fun reset() {
+        turn = 0
         gameTable.reset()
         state = GameStates.PLAY
         gameStatePublisher.publishReset()

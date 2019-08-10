@@ -4,11 +4,11 @@ import com.elihimas.games.pastimes.R
 import java.lang.IllegalStateException
 
 
-enum class Turn(val cellState: TicTacToeSymbol, val instructionStringResId: Int) {
-    FIRST_PLAYER(TicTacToeSymbol.X_SYMBOL, R.string.instruction_x_turn),
-    SECOND_PLAYER(TicTacToeSymbol.O_SYMBOL, R.string.instruction_o_turn);
+enum class PlayerInTurn(val cellState: TicTacToeSymbol, val instructionStringResId: Int) {
+    X_PLAYER(TicTacToeSymbol.X_SYMBOL, R.string.instruction_x_turn),
+    O_PLAYER(TicTacToeSymbol.O_SYMBOL, R.string.instruction_o_turn);
 
-    fun nextTurn() = if (this == FIRST_PLAYER) SECOND_PLAYER else FIRST_PLAYER
+    fun nextTurn() = if (this == X_PLAYER) O_PLAYER else X_PLAYER
 }
 
 enum class TicTacToeSymbol(val resultMessageResId: Int) {
