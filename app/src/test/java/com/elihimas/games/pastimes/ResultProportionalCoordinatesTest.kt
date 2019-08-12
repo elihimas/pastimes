@@ -1,7 +1,7 @@
 package com.elihimas.games.pastimes
 
 import com.elihimas.games.pastimes.game.TicTacToeCell
-import com.elihimas.games.pastimes.views.ResultProportionalCoordinates
+import com.elihimas.games.pastimes.views.ProportionalResultCoordinates
 import org.junit.Test
 
 import org.junit.Assert.*
@@ -19,7 +19,7 @@ class ResultProportionalCoordinatesTest {
             firstCell: TicTacToeCell, secondCell: TicTacToeCell, thirdCell: TicTacToeCell,
             startX: Float, startY: Float, endX: Float, endY: Float
         ) {
-            val coordinates = ResultProportionalCoordinates(listOf(firstCell, secondCell, thirdCell))
+            val coordinates = ProportionalResultCoordinates(listOf(firstCell, secondCell, thirdCell))
 
             assertEquals("wrong startX", coordinates.startX, startX)
             assertEquals("wrong startY", coordinates.startY, startY)

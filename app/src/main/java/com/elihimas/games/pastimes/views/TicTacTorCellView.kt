@@ -14,8 +14,8 @@ class TicTacTorCellView(context: Context, attrs: AttributeSet?) : View(context, 
 
     private companion object {
         const val START_ANGLE = -180f
-        const val END_ANGLE = 180
-        const val ANIMATION_DURATION = 2000L
+        const val SWEEP_ANGLE = 360
+        const val ANIMATION_DURATION = 400L
     }
 
     private var itemStrokeWidth = context.resources.getDimension(R.dimen.item_stroke_width)
@@ -26,7 +26,7 @@ class TicTacTorCellView(context: Context, attrs: AttributeSet?) : View(context, 
         color = context.resources.getColor(R.color.letter_color)
     }
     private var animationInterpolationValue = 0f
-    private var symbol = TicTacToeSymbol.EMPTY
+    private var symbol = TicTacToeSymbol.NONE
 
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
@@ -38,7 +38,7 @@ class TicTacTorCellView(context: Context, attrs: AttributeSet?) : View(context, 
                 width - itemStrokeWidth / 2,
                 height - itemStrokeWidth / 2,
                 START_ANGLE,
-                animationInterpolationValue * END_ANGLE,
+                animationInterpolationValue * SWEEP_ANGLE,
                 false,
                 paint
             )
@@ -69,7 +69,7 @@ class TicTacTorCellView(context: Context, attrs: AttributeSet?) : View(context, 
     }
 
     private fun startAnimation() {
-        val anim = ValueAnimator.ofFloat(0f, 100f)
+        val anim = ValueAnimator.ofFloat(0f, 1f)
 
         anim.addUpdateListener { valueAnimator ->
             animationInterpolationValue = valueAnimator.animatedValue as Float
@@ -83,7 +83,7 @@ class TicTacTorCellView(context: Context, attrs: AttributeSet?) : View(context, 
     fun setSymbolAndAnimate(cellSymbol: TicTacToeSymbol) {
         symbol = cellSymbol
 
-        if (symbol != TicTacToeSymbol.EMPTY) {
+        if (symbol != TicTacToeSymbol.NONE) {
             startAnimation()
         } else {
             invalidate()
@@ -92,7 +92,7 @@ class TicTacTorCellView(context: Context, attrs: AttributeSet?) : View(context, 
 
     fun init(cell: TicTacToeCell) {
         tag = cell
-        setSymbolAndAnimate(TicTacToeSymbol.EMPTY)
+        setSymbolAndAnimate(TicTacToeSymbol.NONE)
     }
 
     fun getCellData(): TicTacToeCell = tag as TicTacToeCell

@@ -4,9 +4,58 @@ import com.elihimas.games.pastimes.PastimesApplication
 import com.elihimas.games.pastimes.R
 import com.elihimas.games.pastimes.model.*
 import com.elihimas.games.pastimes.preferences.PastimesPreferences
+import java.lang.IllegalStateException
 import javax.inject.Inject
 
-data class TicTacToeCell(val row: Int, val column: Int, var cellSymbol: TicTacToeSymbol = TicTacToeSymbol.EMPTY)
+data class TicTacToeCell(
+    val row: Int,
+    val column: Int,
+    val table: TicTacToeTable,
+    var cellSymbol: TicTacToeSymbol = TicTacToeSymbol.NONE
+) {
+    fun isTaken() = cellSymbol != TicTacToeSymbol.NONE
+    fun isFree() = cellSymbol == TicTacToeSymbol.NONE
+    fun neighbours() =
+        sequence {
+            if (row - 1 > 0) {
+                yield(table.cells[row - 1][column])
+            }
+            if (row + 1 < 3) {
+                yield(table.cells[row + 1][column])
+            }
+            if (column - 1 > 0) {
+                yield(table.cells[row][column - 1])
+            }
+            if (column + 1 < 3) {
+                yield(table.cells[row][column + 1])
+            }
+        }.toList()
+
+    fun oppositeCorner() = if (this.row == 0 && this.column == 0) {
+        table.cells[2][2]
+    } else if (this.row == 2 && this.column == 2) {
+        table.cells[0][0]
+    } else if (this.row == 0 && this.column == 2) {
+        table.cells[2][0]
+    } else if (this.row == 2 && this.column == 0) {
+        table.cells[0][2]
+    } else {
+        throw IllegalStateException("there is no opposite corner for ($row, $column)")
+    }
+
+
+    fun otherSide() = if (this.row == 0 && this.column == 1) {
+        table.cells[2][1]
+    } else if (this.row == 2 && this.column == 1) {
+        table.cells[0][1]
+    } else if (this.row == 1 && this.column == 0) {
+        table.cells[1][2]
+    } else if (this.row == 1 && this.column == 2) {
+        table.cells[1][0]
+    } else {
+        throw IllegalStateException("there is no other side for ($row, $column)")
+    }
+}
 
 data class Score(val xVictoryCount: Int, val oVictoryCount: Int)
 
@@ -24,7 +73,7 @@ class TicTacToeGameController {
 
     private var state: GameStates = GameStates.PLAY
     private var playerInTurn = PlayerInTurn.X_PLAYER
-    private var turn = 0
+    private var currentTurn = 0
     private var gameMode: GameMode
     private lateinit var gameTable: TicTacToeTable
 
@@ -39,9 +88,9 @@ class TicTacToeGameController {
     }
 
     fun onCellClicked(cell: TicTacToeCell, isIAAction: Boolean = false) {
-        if (state == GameStates.PLAY && cell.cellSymbol == TicTacToeSymbol.EMPTY) {
-            cell.cellSymbol = playerInTurn.cellState
-            turn++
+        if (state == GameStates.PLAY && cell.isFree()) {
+            cell.cellSymbol = playerInTurn.symbol
+            currentTurn++
 
             val gameResult = verifyResult()
             var nextInstruction: Int
@@ -81,19 +130,19 @@ class TicTacToeGameController {
     }
 
     private fun performAIActionIfNecessary() {
-        if (gameMode != GameMode.OTHER_PLAYER) {
-            val cell = ia.defineCell()
+        if (state == GameStates.PLAY && gameMode.isVersusAI()) {
+            val cell = ia.pickCell(playerInTurn, currentTurn)
 
-            if (cell != null && cell.cellSymbol == TicTacToeSymbol.EMPTY) {
+            if (cell != null && cell.isFree()) {
                 onCellClicked(cell, true)
             }
         }
     }
 
     private fun List<TicTacToeCell>.verifyResult(): GameResult? {
-        val firstCellSymbol = this[0].cellSymbol
+        val firstCellSymbol = first().cellSymbol
         var hasVictory =
-            firstCellSymbol != TicTacToeSymbol.EMPTY
+            firstCellSymbol != TicTacToeSymbol.NONE
                     && firstCellSymbol == this[1].cellSymbol
                     && firstCellSymbol == this[2].cellSymbol
 
@@ -106,18 +155,19 @@ class TicTacToeGameController {
 
     private fun verifyResult(): GameResult? {
         var winResult =
-            if (turn == LAST_POSSIBLE_TURN) {
-                GameResult(null, TicTacToeSymbol.EMPTY)
-            } else {
-                gameTable.firstRow.verifyResult()
-                    ?: gameTable.secondRow.verifyResult()
-                    ?: gameTable.thirdRow.verifyResult()
-                    ?: gameTable.firstColumn.verifyResult()
-                    ?: gameTable.secondColumn.verifyResult()
-                    ?: gameTable.thirdColumn.verifyResult()
-                    ?: gameTable.firstDiagonal.verifyResult()
-                    ?: gameTable.secondDiagonal.verifyResult()
-            }
+            gameTable.firstRow.verifyResult()
+                ?: gameTable.secondRow.verifyResult()
+                ?: gameTable.thirdRow.verifyResult()
+                ?: gameTable.firstColumn.verifyResult()
+                ?: gameTable.secondColumn.verifyResult()
+                ?: gameTable.thirdColumn.verifyResult()
+                ?: gameTable.firstDiagonal.verifyResult()
+                ?: gameTable.secondDiagonal.verifyResult()
+                ?: if (currentTurn == LAST_POSSIBLE_TURN) {
+                    GameResult(null, TicTacToeSymbol.NONE)
+                } else {
+                    null
+                }
 
         if (winResult != null) {
             state = GameStates.FINISHED
@@ -140,9 +190,10 @@ class TicTacToeGameController {
     }
 
     fun reset() {
-        turn = 0
+        currentTurn = 0
         gameTable.reset()
         state = GameStates.PLAY
+        playerInTurn = PlayerInTurn.X_PLAYER
         gameMode = preferences.getMode()
         gameStatePublisher.publishReset()
     }
@@ -151,6 +202,7 @@ class TicTacToeGameController {
         if (this.gameMode != gameMode) {
             this.gameMode = gameMode
             preferences.setMode(gameMode)
+            ia.configure(gameTable, gameMode)
 
             reset()
         }

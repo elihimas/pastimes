@@ -23,7 +23,7 @@ import com.elihimas.games.pastimes.model.TicTacToeTable
 import com.elihimas.games.pastimes.viewmodel.TicTacToeGameViewModel
 import kotlinx.android.synthetic.main.tic_tac_toe_game_view.view.*
 
-data class ResultProportionalCoordinates constructor(
+data class ProportionalResultCoordinates constructor(
     val startX: Float,
     val startY: Float,
     val endX: Float,
@@ -47,7 +47,7 @@ class TicTacToeGameView(context: Context, attrs: AttributeSet?) : FrameLayout(co
     private var viewModel: TicTacToeGameViewModel
     private lateinit var cells: List<TicTacTorCellView>
 
-    private var resultProportionalCoordinates: ResultProportionalCoordinates? = null
+    private var proportionalResultCoordinates: ProportionalResultCoordinates? = null
     private var gridAnimationInterpolationValue = 0f
     private var resultLineAnimationInterpolationValue = 0f
     private var itemStrokeWidth = context.resources.getDimension(R.dimen.item_stroke_width)
@@ -67,7 +67,7 @@ class TicTacToeGameView(context: Context, attrs: AttributeSet?) : FrameLayout(co
         viewModel = ViewModelProviders.of(activity).get(TicTacToeGameViewModel::class.java)
         viewModel.ticTacToeTableData.observe(activity, Observer { table ->
             initCells(table)
-            resultProportionalCoordinates = null
+            proportionalResultCoordinates = null
             startDrawTableAnimation()
         })
         viewModel.changedCell.observe(activity, Observer { changedCell ->
@@ -127,9 +127,9 @@ class TicTacToeGameView(context: Context, attrs: AttributeSet?) : FrameLayout(co
     }
 
     private fun processResult(result: GameResult) {
-        if (result.winnerSymbol != TicTacToeSymbol.EMPTY) {
+        if (result.winnerSymbol != TicTacToeSymbol.NONE) {
             result.cells?.let { resultCells ->
-                resultProportionalCoordinates = ResultProportionalCoordinates(resultCells)
+                proportionalResultCoordinates = ProportionalResultCoordinates(resultCells)
                 startDrawResultAnimation()
             }
         }
@@ -155,7 +155,7 @@ class TicTacToeGameView(context: Context, attrs: AttributeSet?) : FrameLayout(co
         canvas?.drawLine(firstColumnX, 0f, firstColumnX, width * gridAnimationInterpolationValue, paint)
         canvas?.drawLine(secondColumnX, 0f, secondColumnX, width * gridAnimationInterpolationValue, paint)
 
-        resultProportionalCoordinates?.let { coordinates ->
+        proportionalResultCoordinates?.let { coordinates ->
             val startX = coordinates.startX * width
             val startY = coordinates.startY * height
             val endX = if (coordinates.startX == coordinates.endX) {
