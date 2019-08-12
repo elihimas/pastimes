@@ -8,6 +8,10 @@ enum class PlayerInTurn(val symbol: TicTacToeSymbol, val instructionStringResId:
     X_PLAYER(TicTacToeSymbol.X_SYMBOL, R.string.instruction_x_turn),
     O_PLAYER(TicTacToeSymbol.O_SYMBOL, R.string.instruction_o_turn);
 
+    companion object {
+        fun getFirstTurn() = X_PLAYER
+    }
+
     fun nextTurn() = if (this == X_PLAYER) O_PLAYER else X_PLAYER
 }
 
@@ -18,9 +22,10 @@ enum class TicTacToeSymbol(val resultMessageResId: Int) {
 enum class GameStates { PLAY, FINISHED }
 
 enum class GameMode(val id: Int) {
-    EASY(1), MEDIUM(2), IMPOSSIBLE(3), OTHER_PLAYER(4);
+    EASY(1), MEDIUM(2), IMPOSSIBLE(3), OTHER_PLAYER(4), LEARNING(5);
 
     fun isVersusAI() = this != OTHER_PLAYER
+    fun isLearning() = this == LEARNING
 
     companion object {
         fun findModeById(id: Int) = when (id) {
@@ -28,6 +33,7 @@ enum class GameMode(val id: Int) {
             MEDIUM.id -> MEDIUM
             IMPOSSIBLE.id -> IMPOSSIBLE
             OTHER_PLAYER.id -> OTHER_PLAYER
+            LEARNING.id -> LEARNING
             else -> throw IllegalStateException("not implemented for $id")
         }
     }

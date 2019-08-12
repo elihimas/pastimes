@@ -1,90 +1,33 @@
 package com.elihimas.games.pastimes.views
 
-import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.Canvas
-import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.View
-import com.elihimas.games.pastimes.R
-import com.elihimas.games.pastimes.game.TicTacToeCell
+import com.elihimas.games.pastimes.model.TicTacToeCell
 import com.elihimas.games.pastimes.model.TicTacToeSymbol
 
 class TicTacTorCellView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
 
-    private companion object {
-        const val START_ANGLE = -180f
-        const val SWEEP_ANGLE = 360
-        const val ANIMATION_DURATION = 400L
-    }
-
-    private var itemStrokeWidth = context.resources.getDimension(R.dimen.item_stroke_width)
-    private var paint = Paint().apply {
-        isAntiAlias = true
-        style = Paint.Style.STROKE
-        strokeWidth = itemStrokeWidth
-        color = context.resources.getColor(R.color.letter_color)
-    }
-    private var animationInterpolationValue = 0f
     private var symbol = TicTacToeSymbol.NONE
+
+    private val canvasPainter = CanvasPainter(context)
 
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
 
-        val drawO = fun() {
-            canvas?.drawArc(
-                itemStrokeWidth / 2,
-                itemStrokeWidth / 2,
-                width - itemStrokeWidth / 2,
-                height - itemStrokeWidth / 2,
-                START_ANGLE,
-                animationInterpolationValue * SWEEP_ANGLE,
-                false,
-                paint
-            )
-        }
-
-        val drawX = fun() {
-            canvas?.drawLine(
-                0f,
-                0f,
-                width * animationInterpolationValue,
-                height * animationInterpolationValue,
-                paint
-            )
-
-            canvas?.drawLine(
-                0f,
-                height.toFloat(),
-                width * animationInterpolationValue,
-                height * (1 - animationInterpolationValue),
-                paint
-            )
-        }
 
         when (symbol) {
-            TicTacToeSymbol.O_SYMBOL -> drawO()
-            TicTacToeSymbol.X_SYMBOL -> drawX()
+            TicTacToeSymbol.O_SYMBOL -> canvasPainter.drawO(canvas, width, height)
+            TicTacToeSymbol.X_SYMBOL -> canvasPainter.drawX(canvas, width, height)
         }
-    }
-
-    private fun startAnimation() {
-        val anim = ValueAnimator.ofFloat(0f, 1f)
-
-        anim.addUpdateListener { valueAnimator ->
-            animationInterpolationValue = valueAnimator.animatedValue as Float
-            invalidate()
-        }
-
-        anim.duration = ANIMATION_DURATION
-        anim.start()
     }
 
     fun setSymbolAndAnimate(cellSymbol: TicTacToeSymbol) {
         symbol = cellSymbol
 
         if (symbol != TicTacToeSymbol.NONE) {
-            startAnimation()
+            canvasPainter.startSymbolAnimation(this)
         } else {
             invalidate()
         }

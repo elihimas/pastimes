@@ -10,8 +10,14 @@ import com.elihimas.games.pastimes.model.GameMode
 import com.elihimas.games.pastimes.viewmodel.TicTacToeGameViewModel
 import kotlinx.android.synthetic.main.activity_tic_tac_toe.*
 
+import java.util.*
+import kotlin.concurrent.schedule
 
 class TicTacToeActivity : BasePastimesActivity() {
+
+    private companion object {
+        const val SUGGESTION_DISPLAY_TIME = 3000L
+    }
 
     private lateinit var viewModel: TicTacToeGameViewModel
 
@@ -23,10 +29,11 @@ class TicTacToeActivity : BasePastimesActivity() {
     }
 
     private fun init() {
-        val initControls = fun() {
+        fun initControls() {
             btReset.setOnClickListener { reset() }
         }
-        val initViewModel = fun() {
+
+        fun initViewModel() {
             viewModel = ViewModelProviders.of(this).get(TicTacToeGameViewModel::class.java)
             viewModel.score.observe(this, Observer { score ->
                 tvScoreX.text = this.getString(R.string.score_x, score.xVictoryCount)
@@ -34,6 +41,16 @@ class TicTacToeActivity : BasePastimesActivity() {
             })
             viewModel.instructionResId.observe(this, Observer { instruction ->
                 tvInstructions.setText(instruction)
+            })
+
+            viewModel.suggestion.observe(this, Observer { suggestion ->
+                tvSuggestion.setText(suggestion.textResId)
+
+                Timer().schedule(SUGGESTION_DISPLAY_TIME) {
+                    runOnUiThread {
+                        tvSuggestion.text = ""
+                    }
+                }
             })
         }
 
@@ -48,14 +65,15 @@ class TicTacToeActivity : BasePastimesActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val gameMode = when (item.itemId) {
-            R.id.menu_item_difficulty_easy -> GameMode.EASY
-            R.id.menu_item_difficulty_medium -> GameMode.MEDIUM
-            R.id.menu_item_difficulty_impossible -> GameMode.IMPOSSIBLE
-            R.id.menu_item_difficulty_other_player -> GameMode.OTHER_PLAYER
+            R.id.menu_item_mode_easy -> GameMode.EASY
+            R.id.menu_item_mode_medium -> GameMode.MEDIUM
+            R.id.menu_item_mode_impossible -> GameMode.IMPOSSIBLE
+            R.id.menu_item_mode_other_player -> GameMode.OTHER_PLAYER
+            R.id.menu_item_mode_leaning -> GameMode.LEARNING
             else -> throw IllegalStateException("not implemented for ${item.title}")
         }
 
-        viewModel.setGameMode(gameMode)
+        viewModel.changeGameMode(gameMode)
 
         return true
     }

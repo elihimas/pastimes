@@ -1,10 +1,7 @@
 package com.elihimas.games.pastimes.game
 
 import com.elihimas.games.pastimes.extensions.*
-import com.elihimas.games.pastimes.model.GameMode
-import com.elihimas.games.pastimes.model.PlayerInTurn
-import com.elihimas.games.pastimes.model.TicTacToeSymbol
-import com.elihimas.games.pastimes.model.TicTacToeTable
+import com.elihimas.games.pastimes.model.*
 
 private interface IA {
     fun pickCell(playerInTurn: PlayerInTurn, currentTurn: Int): TicTacToeCell?

@@ -39,6 +39,14 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvInstructions"/>
 
+    <TextView
+            style="@style/SuggestionText"
+            android:id="@+id/tvSuggestion"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/gameView"
+            tools:text="@string/suggestion_missed_win"/>
+
     <Button
             android:id="@+id/btReset"
             android:text="@string/restart_game"

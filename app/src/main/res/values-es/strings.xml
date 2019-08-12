@@ -1,10 +1,11 @@
 <resources>
     <string name="app_name">Ceros Y Cruces</string>
 
-    <string name="difficulty_easy">Fácil</string>
-    <string name="difficulty_medium">Intermedio</string>
-    <string name="difficulty_impossible">Imposible</string>
-    <string name="difficulty_other_player">Jugar con otra persona</string>
+    <string name="mode_easy">Fácil</string>
+    <string name="mode_medium">Intermedio</string>
+    <string name="mode_impossible">Imposible</string>
+    <string name="mode_other_player">Jugar con otra persona</string>
+    <string name="mode_learn">Modo de aprendizado</string>
 
     <string name="result_o_victory">Ganador: O</string>
     <string name="result_x_victory">Ganador: x</string>
@@ -15,4 +16,7 @@
     <string name="instruction_x_turn">Turno del X</string>
 
     <string name="restart_game">reiniciair juego</string>
+
+    <string name="suggestion_missed_victory">perdiste la oportunidad de ganar</string>
+    <string name="suggestion_missed_defeat">¡ojo para no perder!</string>
 </resources>

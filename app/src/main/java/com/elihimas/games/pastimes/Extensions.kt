@@ -1,6 +1,7 @@
 package com.elihimas.games.pastimes.extensions
 
-import com.elihimas.games.pastimes.game.TicTacToeCell
+import com.elihimas.games.pastimes.game.GameResult
+import com.elihimas.games.pastimes.model.TicTacToeCell
 import com.elihimas.games.pastimes.model.TicTacToeSymbol
 
 const val ONE_SIXTH = 1f / 6
@@ -83,7 +84,9 @@ fun List<TicTacToeCell>.filterFreeCells() = filter { cell -> cell.isFree() }
 fun List<List<TicTacToeCell>>.filterFreeCells() =
     sequence {
         forEach { line ->
-            yieldAll(line.filterFreeCells())
+            line.filterFreeCells().forEach { cell ->
+                yield(cell)
+            }
         }
     }
 
@@ -108,3 +111,17 @@ fun listFreeInBothDirectionsByRow(row: List<TicTacToeCell>) =
             }
         }
     }
+
+fun List<TicTacToeCell>.verifyResult(): GameResult? {
+    val firstCellSymbol = first().cellSymbol
+    var hasVictory =
+        firstCellSymbol != TicTacToeSymbol.NONE
+                && firstCellSymbol == this[1].cellSymbol
+                && firstCellSymbol == this[2].cellSymbol
+
+    return if (hasVictory) {
+        GameResult(this, firstCellSymbol)
+    } else {
+        null
+    }
+}

@@ -4,7 +4,6 @@ import com.elihimas.games.pastimes.extensions.almostVictoryOf
 import com.elihimas.games.pastimes.extensions.filterFreeCells
 import com.elihimas.games.pastimes.extensions.isAllFree
 import com.elihimas.games.pastimes.extensions.listFreeInBothDirectionsByRow
-import com.elihimas.games.pastimes.game.TicTacToeCell
 
 class TicTacToeTable {
 

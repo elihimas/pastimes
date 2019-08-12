@@ -2,34 +2,49 @@ package com.elihimas.games.pastimes.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.elihimas.games.pastimes.PastimesApplication
 import com.elihimas.games.pastimes.R
-import com.elihimas.games.pastimes.game.*
+import com.elihimas.games.pastimes.game.GameResult
+import com.elihimas.games.pastimes.game.Score
+import com.elihimas.games.pastimes.game.TicTacToeGameBridge
+import com.elihimas.games.pastimes.game.TicTacToeResultPublisher
 import com.elihimas.games.pastimes.model.GameMode
+import com.elihimas.games.pastimes.model.Suggestion
+import com.elihimas.games.pastimes.model.TicTacToeCell
 import com.elihimas.games.pastimes.model.TicTacToeTable
+import com.elihimas.games.pastimes.preferences.PastimesPreferences
+import javax.inject.Inject
 
 class TicTacToeGameViewModel : ViewModel(), TicTacToeResultPublisher {
 
-    private val game = TicTacToeGameController()
+    private val game: TicTacToeGameBridge
 
     val score = MutableLiveData<Score>()
     val ticTacToeTableData = MutableLiveData<TicTacToeTable>()
     val changedCell = MutableLiveData<TicTacToeCell>()
     val instructionResId = MutableLiveData<Int>()
     val result = MutableLiveData<GameResult>()
+    val suggestion = MutableLiveData<Suggestion>()
+
+    @Inject
+    lateinit var preferences: PastimesPreferences
 
     init {
+        PastimesApplication.appComponent.inject(this)
+
         val ticTacToeTable = TicTacToeTable()
         ticTacToeTableData.value = ticTacToeTable
 
-        game.configure(this, ticTacToeTable)
+        val gameMode = preferences.getMode()
+        game = TicTacToeGameBridge(this, ticTacToeTable, gameMode)
     }
 
     fun onCellClicked(cell: TicTacToeCell) {
         game.onCellClicked(cell)
     }
 
-    fun setGameMode(gameMode: GameMode) {
-        game.setGameMode(gameMode)
+    fun changeGameMode(gameMode: GameMode) {
+        game.changeGameMode(gameMode)
     }
 
     override fun publishScore(score: Score) {
@@ -55,5 +70,9 @@ class TicTacToeGameViewModel : ViewModel(), TicTacToeResultPublisher {
 
     fun reset() {
         game.reset()
+    }
+
+    override fun publishSuggestion(suggestion: Suggestion) {
+        this.suggestion.value = suggestion
     }
 }

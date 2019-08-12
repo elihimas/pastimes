@@ -1,10 +1,11 @@
 <resources>
     <string name="app_name">Jogo da velha</string>
 
-    <string name="difficulty_easy">Fácil</string>
-    <string name="difficulty_medium">Médio</string>
-    <string name="difficulty_impossible">Impossível</string>
-    <string name="difficulty_other_player">Jogar com outra pessoa</string>
+    <string name="mode_easy">Fácil</string>
+    <string name="mode_medium">Médio</string>
+    <string name="mode_impossible">Impossível</string>
+    <string name="mode_other_player">Jogar com outra pessoa</string>
+    <string name="mode_learn">Modo de aprendizado</string>
 
     <string name="result_o_victory">Vencedor: O</string>
     <string name="result_x_victory">Vencedor: X</string>
@@ -15,4 +16,7 @@
     <string name="instruction_x_turn">Vez de X</string>
 
     <string name="restart_game">reiniciar</string>
+
+    <string name="suggestion_missed_victory">você perdeu uma chance de ganhar</string>
+    <string name="suggestion_missed_defeat">cuidado para não perder!</string>
 </resources>

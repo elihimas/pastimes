@@ -1,9 +1,7 @@
 package com.elihimas.games.pastimes.views
 
-import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.Canvas
-import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
@@ -12,51 +10,24 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.elihimas.games.pastimes.R
 import com.elihimas.games.pastimes.activities.BasePastimesActivity
-import com.elihimas.games.pastimes.extensions.getEndX
-import com.elihimas.games.pastimes.extensions.getEndY
-import com.elihimas.games.pastimes.extensions.getStartX
-import com.elihimas.games.pastimes.extensions.getStartY
 import com.elihimas.games.pastimes.game.GameResult
-import com.elihimas.games.pastimes.game.TicTacToeCell
+import com.elihimas.games.pastimes.model.SuggestionType
+import com.elihimas.games.pastimes.model.TicTacToeCell
 import com.elihimas.games.pastimes.model.TicTacToeSymbol
 import com.elihimas.games.pastimes.model.TicTacToeTable
 import com.elihimas.games.pastimes.viewmodel.TicTacToeGameViewModel
 import kotlinx.android.synthetic.main.tic_tac_toe_game_view.view.*
 
-data class ProportionalResultCoordinates constructor(
-    val startX: Float,
-    val startY: Float,
-    val endX: Float,
-    val endY: Float
-) {
-    constructor(cells: List<TicTacToeCell>) : this(
-        cells.getStartX(),
-        cells.getStartY(),
-        cells.getEndX(),
-        cells.getEndY()
-    )
-}
-
 class TicTacToeGameView(context: Context, attrs: AttributeSet?) : FrameLayout(context, attrs), View.OnClickListener {
 
     companion object {
         const val COLUMN_COUNT = 3
-        const val ANIMATION_DURATION = 200L
     }
 
     private var viewModel: TicTacToeGameViewModel
     private lateinit var cells: List<TicTacTorCellView>
 
-    private var proportionalResultCoordinates: ProportionalResultCoordinates? = null
-    private var gridAnimationInterpolationValue = 0f
-    private var resultLineAnimationInterpolationValue = 0f
-    private var itemStrokeWidth = context.resources.getDimension(R.dimen.item_stroke_width)
-    private var paint = Paint().apply {
-        isAntiAlias = true
-        style = Paint.Style.STROKE
-        strokeWidth = itemStrokeWidth
-        color = context.resources.getColor(R.color.letter_color)
-    }
+    private val canvasPainter = CanvasPainter(context)
 
     init {
         val activity = context as BasePastimesActivity
@@ -67,8 +38,8 @@ class TicTacToeGameView(context: Context, attrs: AttributeSet?) : FrameLayout(co
         viewModel = ViewModelProviders.of(activity).get(TicTacToeGameViewModel::class.java)
         viewModel.ticTacToeTableData.observe(activity, Observer { table ->
             initCells(table)
-            proportionalResultCoordinates = null
-            startDrawTableAnimation()
+            canvasPainter.proportionalResultCoordinates = null
+            canvasPainter.startDrawTableAnimation(this)
         })
         viewModel.changedCell.observe(activity, Observer { changedCell ->
             updateCell(changedCell)
@@ -76,6 +47,17 @@ class TicTacToeGameView(context: Context, attrs: AttributeSet?) : FrameLayout(co
         viewModel.result.observe(activity, Observer { result ->
             processResult(result)
         })
+        viewModel.suggestion.observe(activity, Observer { suggestion ->
+            if (suggestion.betterPicks.isNotEmpty()) {
+                showMissedWin(suggestion.betterPicks)
+            }
+        })
+    }
+
+    private fun showMissedWin(betterPicks: List<TicTacToeCell>) {
+        canvasPainter.betterPicksToSuggest = betterPicks
+
+        canvasPainter.startDrawSuggestionAnimation(this)
     }
 
     private fun initCells(table: TicTacToeTable) {
@@ -129,8 +111,8 @@ class TicTacToeGameView(context: Context, attrs: AttributeSet?) : FrameLayout(co
     private fun processResult(result: GameResult) {
         if (result.winnerSymbol != TicTacToeSymbol.NONE) {
             result.cells?.let { resultCells ->
-                proportionalResultCoordinates = ProportionalResultCoordinates(resultCells)
-                startDrawResultAnimation()
+                canvasPainter.proportionalResultCoordinates = ProportionalResultCoordinates(resultCells)
+                canvasPainter.startDrawResultAnimation(this)
             }
         }
     }
@@ -145,60 +127,9 @@ class TicTacToeGameView(context: Context, attrs: AttributeSet?) : FrameLayout(co
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
 
-        val firstLineY = (height / 3).toFloat()
-        val secondLineY = (height * 2 / 3).toFloat()
-        val firstColumnX = (width / 3).toFloat()
-        val secondColumnX = (width * 2 / 3).toFloat()
-
-        canvas?.drawLine(0f, firstLineY, width * gridAnimationInterpolationValue, firstLineY, paint)
-        canvas?.drawLine(0f, secondLineY, width * gridAnimationInterpolationValue, secondLineY, paint)
-        canvas?.drawLine(firstColumnX, 0f, firstColumnX, width * gridAnimationInterpolationValue, paint)
-        canvas?.drawLine(secondColumnX, 0f, secondColumnX, width * gridAnimationInterpolationValue, paint)
-
-        proportionalResultCoordinates?.let { coordinates ->
-            val startX = coordinates.startX * width
-            val startY = coordinates.startY * height
-            val endX = if (coordinates.startX == coordinates.endX) {
-                coordinates.endX * width
-            } else {
-                coordinates.endX * width * resultLineAnimationInterpolationValue
-            }
-            //TODO refactor this declaration
-            val endY =
-                if (coordinates.startY == coordinates.endY) {
-                    coordinates.endY * height
-                } else if (coordinates.endY == 0f) {
-                    height * (1 - resultLineAnimationInterpolationValue)
-                } else {
-                    coordinates.endY * height * resultLineAnimationInterpolationValue
-                }
-
-            canvas?.drawLine(startX, startY, endX, endY, paint)
-        }
-    }
-
-    private fun startDrawTableAnimation() {
-        val anim = ValueAnimator.ofFloat(0f, 1f)
-
-        anim.addUpdateListener { valueAnimator ->
-            gridAnimationInterpolationValue = valueAnimator.animatedValue as Float
-            invalidate()
-        }
-
-        anim.duration = ANIMATION_DURATION
-        anim.start()
-    }
-
-    private fun startDrawResultAnimation() {
-        val anim = ValueAnimator.ofFloat(0f, 1f)
-
-        anim.addUpdateListener { valueAnimator ->
-            resultLineAnimationInterpolationValue = valueAnimator.animatedValue as Float
-            invalidate()
-        }
-
-        anim.duration = ANIMATION_DURATION
-        anim.start()
+        canvasPainter.drawGrid(canvas, width, height)
+        canvasPainter.drawResults(canvas, width, height)
+        canvasPainter.drawSuggestions(canvas, cells)
     }
 
 

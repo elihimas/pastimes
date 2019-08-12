@@ -1,10 +1,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/menu_item_difficulty_easy"
-          android:title="@string/difficulty_easy"/>
-    <item android:id="@+id/menu_item_difficulty_medium"
-          android:title="@string/difficulty_medium"/>
-    <item android:id="@+id/menu_item_difficulty_impossible"
-          android:title="@string/difficulty_impossible"/>
-    <item android:id="@+id/menu_item_difficulty_other_player"
-          android:title="@string/difficulty_other_player"/>
+    <item android:id="@+id/menu_item_mode_easy"
+          android:title="@string/mode_easy"/>
+    <item android:id="@+id/menu_item_mode_medium"
+          android:title="@string/mode_medium"/>
+    <item android:id="@+id/menu_item_mode_impossible"
+          android:title="@string/mode_impossible"/>
+    <item android:id="@+id/menu_item_mode_other_player"
+          android:title="@string/mode_other_player"/>
+    <item android:id="@+id/menu_item_mode_leaning"
+          android:title="@string/mode_learn"/>
 </menu>

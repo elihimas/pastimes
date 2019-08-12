@@ -1,6 +1,7 @@
 package com.elihimas.games.pastimes
 
-import com.elihimas.games.pastimes.game.TicTacToeCell
+import com.elihimas.games.pastimes.model.TicTacToeCell
+import com.elihimas.games.pastimes.model.TicTacToeTable
 import com.elihimas.games.pastimes.views.ProportionalResultCoordinates
 import org.junit.Test
 
@@ -27,59 +28,61 @@ class ResultProportionalCoordinatesTest {
             assertEquals("wrong endY", coordinates.endY, endY)
         }
 
+        val table = TicTacToeTable()
+
         testCoordinates(
-            TicTacToeCell(0, 0),
-            TicTacToeCell(0, 1),
-            TicTacToeCell(0, 2),
+            TicTacToeCell(0, 0, table),
+            TicTacToeCell(0, 1, table),
+            TicTacToeCell(0, 2, table),
             0f, ONE_SIXTH, 1f, ONE_SIXTH
         )
 
         testCoordinates(
-            TicTacToeCell(1, 0),
-            TicTacToeCell(1, 1),
-            TicTacToeCell(1, 2),
+            TicTacToeCell(1, 0, table),
+            TicTacToeCell(1, 1, table),
+            TicTacToeCell(1, 2, table),
             0f, ONE_SIXTH + ONE_THIRD, 1f, ONE_SIXTH + ONE_THIRD
         )
 
         testCoordinates(
-            TicTacToeCell(2, 0),
-            TicTacToeCell(2, 1),
-            TicTacToeCell(2, 2),
+            TicTacToeCell(2, 0, table),
+            TicTacToeCell(2, 1, table),
+            TicTacToeCell(2, 2, table),
             0f, ONE_SIXTH + 2 * ONE_THIRD, 1f, ONE_SIXTH + 2 * ONE_THIRD
         )
 
         testCoordinates(
-            TicTacToeCell(0, 0),
-            TicTacToeCell(1, 0),
-            TicTacToeCell(2, 0),
+            TicTacToeCell(0, 0, table),
+            TicTacToeCell(1, 0, table),
+            TicTacToeCell(2, 0, table),
             ONE_SIXTH, 0f, ONE_SIXTH, 1f
         )
 
         testCoordinates(
-            TicTacToeCell(0, 1),
-            TicTacToeCell(1, 1),
-            TicTacToeCell(2, 1),
+            TicTacToeCell(0, 1, table),
+            TicTacToeCell(1, 1, table),
+            TicTacToeCell(2, 1, table),
             ONE_SIXTH + ONE_THIRD, 0f, ONE_SIXTH + ONE_THIRD, 1f
         )
 
         testCoordinates(
-            TicTacToeCell(0, 2),
-            TicTacToeCell(1, 2),
-            TicTacToeCell(2, 2),
+            TicTacToeCell(0, 2, table),
+            TicTacToeCell(1, 2, table),
+            TicTacToeCell(2, 2, table),
             ONE_SIXTH + 2f / 3, 0f, ONE_SIXTH + 2f / 3, 1f
         )
 
         testCoordinates(
-            TicTacToeCell(0, 0),
-            TicTacToeCell(1, 1),
-            TicTacToeCell(2, 2),
+            TicTacToeCell(0, 0, table),
+            TicTacToeCell(1, 1, table),
+            TicTacToeCell(2, 2, table),
             0f, 0f, 1f, 1f
         )
 
         testCoordinates(
-            TicTacToeCell(2, 0),
-            TicTacToeCell(1, 1),
-            TicTacToeCell(0, 2),
+            TicTacToeCell(2, 0, table),
+            TicTacToeCell(1, 1, table),
+            TicTacToeCell(0, 2, table),
             0f, 1f, 1f, 0f
         )
     }

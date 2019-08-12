@@ -1,10 +1,11 @@
 <resources>
     <string name="app_name">Tic-tac-toe</string>
 
-    <string name="difficulty_easy">Easy</string>
-    <string name="difficulty_medium">Medium</string>
-    <string name="difficulty_impossible">Impossible</string>
-    <string name="difficulty_other_player">Play with other person</string>
+    <string name="mode_easy">Easy</string>
+    <string name="mode_medium">Medium</string>
+    <string name="mode_impossible">Impossible</string>
+    <string name="mode_other_player">Play with other person</string>
+    <string name="mode_learn">Learn mode</string>
 
     <string name="result_x_victory">Winner: X</string>
     <string name="result_o_victory">Winner: O</string>
@@ -18,4 +19,7 @@
     <string name="score_x" translatable="false">X: %d</string>
 
     <string name="restart_game">restart game</string>
+
+    <string name="suggestion_missed_victory">you missed a winner move</string>
+    <string name="suggestion_missed_defeat">if you don\'t be smart, you\'ll lose!</string>
 </resources>

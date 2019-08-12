@@ -8,23 +8,23 @@
         android:orientation="vertical">
 
     <Button
-            style="@style/DifficultyButton"
+            style="@style/ModeButton"
             android:id="@+id/btEasy"
             android:layout_width="match_parent"
-            android:text="@string/difficulty_easy"/>
+            android:text="@string/mode_easy"/>
 
     <Button
-            style="@style/DifficultyButton"
+            style="@style/ModeButton"
             android:id="@+id/btMedium"
-            android:text="@string/difficulty_medium"/>
+            android:text="@string/mode_medium"/>
 
     <Button
-            style="@style/DifficultyButton"
+            style="@style/ModeButton"
             android:id="@+id/btImpossible"
-            android:text="@string/difficulty_impossible"/>
+            android:text="@string/mode_impossible"/>
 
     <Button
-            style="@style/DifficultyButton"
+            style="@style/ModeButton"
             android:id="@+id/btOtherPlayer"
-            android:text="@string/difficulty_other_player"/>
+            android:text="@string/mode_other_player"/>
 </LinearLayout>
