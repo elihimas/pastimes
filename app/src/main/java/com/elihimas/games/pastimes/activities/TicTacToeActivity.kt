@@ -1,6 +1,5 @@
 package com.elihimas.games.pastimes.activities
 
-import android.R.id.toggle
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -18,10 +17,6 @@ import kotlin.concurrent.schedule
 
 class TicTacToeActivity : BasePastimesActivity() {
 
-    private companion object {
-        const val SUGGESTION_DISPLAY_TIME = 3000L
-    }
-
     private lateinit var viewModel: TicTacToeGameViewModel
     private lateinit var actionBarDrawerToggle: ActionBarDrawerToggle
 
@@ -33,7 +28,7 @@ class TicTacToeActivity : BasePastimesActivity() {
     }
 
     private fun init() {
-        fun initControls() {
+        fun initUIControls() {
             btReset.setOnClickListener { reset() }
             navigation.setNavigationItemSelectedListener(::onNavItemSelected)
 
@@ -63,18 +58,12 @@ class TicTacToeActivity : BasePastimesActivity() {
                         tvInstructions.setText(instruction)
                     })
                     model.suggestion.observe(this, Observer { suggestion ->
-                        tvSuggestion.setText(suggestion.textResId)
-
-                        Timer().schedule(SUGGESTION_DISPLAY_TIME) {
-                            runOnUiThread {
-                                tvSuggestion.text = ""
-                            }
-                        }
+                        tvSuggestion.showSuggestion(suggestion.textResId)
                     })
                 }
         }
 
-        initControls()
+        initUIControls()
         initViewModel()
     }
 

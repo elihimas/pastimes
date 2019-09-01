@@ -39,7 +39,7 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvInstructions" />
 
-    <TextView
+    <com.elihimas.games.pastimes.views.SuggestionText
             android:id="@+id/tvSuggestion"
             style="@style/SuggestionText"
             app:layout_constraintLeft_toLeftOf="parent"
