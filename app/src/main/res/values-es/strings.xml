@@ -21,8 +21,8 @@
     <string name="suggestion_missed_victory">perdiste la oportunidad de ganar</string>
     <string name="suggestion_missed_defeat">¡ojo para no perder!</string>
 
-    <string name="open_drawer">Abrir menu lateral</string>
-    <string name="close_drawer">Cerrar menu lateral</string>
+    <string name="open_drawer">Abrir menú lateral</string>
+    <string name="close_drawer">Cerrar menú lateral</string>
 
     <!-- Settings -->
     <string name="title_activity_settings">Configuraciones</string>

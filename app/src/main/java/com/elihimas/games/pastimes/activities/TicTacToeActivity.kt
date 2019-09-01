@@ -29,10 +29,6 @@ class TicTacToeActivity : BasePastimesActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_tic_tac_toe)
 
-        supportActionBar?.apply {
-            //            setHomeAsUpIndicator(R.drawable.menu_icon)
-        }
-
         init()
     }
 
@@ -41,37 +37,41 @@ class TicTacToeActivity : BasePastimesActivity() {
             btReset.setOnClickListener { reset() }
             navigation.setNavigationItemSelectedListener(::onNavItemSelected)
 
-            supportActionBar?.setDisplayHomeAsUpEnabled(true)
-            supportActionBar?.setHomeButtonEnabled(true)
+            supportActionBar?.apply {
+                setDisplayHomeAsUpEnabled(true)
+                setHomeButtonEnabled(true)
+            }
             actionBarDrawerToggle = ActionBarDrawerToggle(
                 this,
                 drawer_layout,
                 R.string.open_drawer,
                 R.string.close_drawer
-            )
-            drawer_layout.addDrawerListener(actionBarDrawerToggle)
-            actionBarDrawerToggle.syncState()
+            ).also { toggle ->
+                drawer_layout.addDrawerListener(toggle)
+                toggle.syncState()
+            }
         }
 
         fun initViewModel() {
-            viewModel = ViewModelProviders.of(this).get(TicTacToeGameViewModel::class.java)
-            viewModel.score.observe(this, Observer { score ->
-                tvScoreX.text = this.getString(R.string.score_x, score.xVictoryCount)
-                tvScoreO.text = this.getString(R.string.score_o, score.oVictoryCount)
-            })
-            viewModel.instructionResId.observe(this, Observer { instruction ->
-                tvInstructions.setText(instruction)
-            })
+            viewModel =
+                ViewModelProviders.of(this).get(TicTacToeGameViewModel::class.java).also { model ->
+                    model.score.observe(this, Observer { score ->
+                        tvScoreX.text = this.getString(R.string.score_x, score.xVictoryCount)
+                        tvScoreO.text = this.getString(R.string.score_o, score.oVictoryCount)
+                    })
+                    model.instructionResId.observe(this, Observer { instruction ->
+                        tvInstructions.setText(instruction)
+                    })
+                    model.suggestion.observe(this, Observer { suggestion ->
+                        tvSuggestion.setText(suggestion.textResId)
 
-            viewModel.suggestion.observe(this, Observer { suggestion ->
-                tvSuggestion.setText(suggestion.textResId)
-
-                Timer().schedule(SUGGESTION_DISPLAY_TIME) {
-                    runOnUiThread {
-                        tvSuggestion.text = ""
-                    }
+                        Timer().schedule(SUGGESTION_DISPLAY_TIME) {
+                            runOnUiThread {
+                                tvSuggestion.text = ""
+                            }
+                        }
+                    })
                 }
-            })
         }
 
         initControls()
@@ -101,9 +101,10 @@ class TicTacToeActivity : BasePastimesActivity() {
             viewModel.changeGameMode(gameMode)
         }
 
-        when {
-            item.itemId == R.id.menu_item_settings -> SettingsActivity.start(this)
-            else -> handleDifficultyChange()
+        if (item.itemId == R.id.menu_item_settings) {
+            SettingsActivity.start(this)
+        } else {
+            handleDifficultyChange()
         }
 
         return true
