@@ -1,4 +1,12 @@
 <resources>
     <dimen name="game_view_margin">10dp</dimen>
     <dimen name="item_stroke_width">7dp</dimen>
+    <dimen name="item_stroke_width_icon">3dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="app_bar_height">200dp</dimen>
+    <dimen name="item_width">200dp</dimen>
+    <dimen name="text_margin">16dp</dimen>
+
+    <dimen name="tic_tac_toe_nav_header_items_spacing">15dp</dimen>
+    <dimen name="nav_header_height">100dp</dimen>
 </resources>

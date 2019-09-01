@@ -6,6 +6,7 @@
     <string name="mode_impossible">Impossible</string>
     <string name="mode_other_player">Play with other person</string>
     <string name="mode_learn">Learn mode</string>
+    <string name="settings">Settings</string>
 
     <string name="result_x_victory">Winner: X</string>
     <string name="result_o_victory">Winner: O</string>
@@ -22,4 +23,14 @@
 
     <string name="suggestion_missed_victory">you missed a winner move</string>
     <string name="suggestion_missed_defeat">if you don\'t be smart, you\'ll lose!</string>
+
+    <string name="open_drawer">Open lateral menu</string>
+    <string name="close_drawer">Close lateral menu</string>
+
+    <!-- Settings -->
+    <string name="title_activity_settings">Settings</string>
+    <string name="record_score">Record score</string>
+    <string name="record_score_on">Record</string>
+    <string name="record_score_off">Don\'t record</string>
+    <string name="reply_title">Default reply action</string>
 </resources>

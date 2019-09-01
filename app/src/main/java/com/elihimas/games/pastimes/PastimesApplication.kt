@@ -15,8 +15,8 @@ class PastimesApplication : Application() {
         super.onCreate()
 
         appComponent = DaggerApplicationComponent.builder()
-            .settingsModule(SettingsModule(this))
-            .build()
+                .settingsModule(SettingsModule(this))
+                .build()
     }
 
 }

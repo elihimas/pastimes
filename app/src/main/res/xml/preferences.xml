@@ -1,0 +1,12 @@
+<androidx.preference.PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory>
+        <SwitchPreferenceCompat
+                app:key="record_score"
+                app:summaryOff="@string/record_score_off"
+                app:summaryOn="@string/record_score_on"
+                app:defaultValue="true"
+                app:title="@string/record_score" />
+    </PreferenceCategory>
+
+</androidx.preference.PreferenceScreen>

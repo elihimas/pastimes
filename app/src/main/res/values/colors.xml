@@ -3,7 +3,8 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
 
-    <!--todo revisit this color-->
+    <!--todo revisit these colors-->
     <color name="letter_color">#acacac</color>
+    <color name="letter_color_dark">#FF424242</color>
     <color name="empty_cell_color">#dedede</color>
 </resources>

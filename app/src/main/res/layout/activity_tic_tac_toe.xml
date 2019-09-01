@@ -1,58 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".activities.TicTacToeActivity">
+        tools:openDrawer="start">
 
-    <TextView
-            style="@style/ScoreText"
-            android:id="@+id/tvScoreX"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="X: 10"/>
+    <include layout="@layout/tic_tac_toe_game" />
 
-    <TextView
-            style="@style/ScoreText"
-            android:id="@+id/tvScoreO"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="O: 5"/>
+    <com.google.android.material.navigation.NavigationView
+            android:id="@+id/navigation"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            app:headerLayout="@layout/tic_tac_toe_nav_header"
+            app:menu="@menu/tic_tac_toe_menu" />
 
-    <TextView
-            style="@style/InstructionsText"
-            android:id="@+id/tvInstructions"
-            app:layout_constraintLeft_toRightOf="@id/tvScoreX"
-            app:layout_constraintRight_toLeftOf="@id/tvScoreO"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="@string/instruction_game_start"/>
-
-    <com.elihimas.games.pastimes.views.TicTacToeGameView
-            android:id="@+id/gameView"
-            android:layout_margin="@dimen/game_view_margin"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvInstructions"/>
-
-    <TextView
-            style="@style/SuggestionText"
-            android:id="@+id/tvSuggestion"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/gameView"
-            tools:text="@string/suggestion_missed_win"/>
-
-    <Button
-            android:id="@+id/btReset"
-            android:text="@string/restart_game"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.drawerlayout.widget.DrawerLayout>

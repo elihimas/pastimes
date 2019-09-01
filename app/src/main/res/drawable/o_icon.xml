@@ -1,0 +1,14 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape
+                android:shape="ring"
+                android:thickness="@dimen/item_stroke_width"
+                android:useLevel="false">
+            <gradient
+                    android:angle="45"
+                    android:endColor="@color/letter_color"
+                    android:startColor="@color/letter_color_dark"
+                    android:type="linear" />
+        </shape>
+    </item>
+</layer-list>

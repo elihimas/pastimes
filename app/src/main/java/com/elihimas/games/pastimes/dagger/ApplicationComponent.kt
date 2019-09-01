@@ -3,16 +3,13 @@ package com.elihimas.games.pastimes.dagger
 import com.elihimas.games.pastimes.activities.FirstSetupActivity
 import com.elihimas.games.pastimes.activities.StarterActivity
 import com.elihimas.games.pastimes.game.AbstractTicTacToeGameController
-import com.elihimas.games.pastimes.game.TicTacToeGameController
 import com.elihimas.games.pastimes.viewmodel.TicTacToeGameViewModel
 import dagger.Component
 import javax.inject.Singleton
 
 @Singleton
 @Component(
-    modules = [
-        SettingsModule::class
-    ]
+    modules = [SettingsModule::class]
 )
 interface ApplicationComponent {
 

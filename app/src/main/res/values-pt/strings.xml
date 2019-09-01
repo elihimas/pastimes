@@ -6,6 +6,7 @@
     <string name="mode_impossible">Impossível</string>
     <string name="mode_other_player">Jogar com outra pessoa</string>
     <string name="mode_learn">Modo de aprendizado</string>
+    <string name="settings">Configurações</string>
 
     <string name="result_o_victory">Vencedor: O</string>
     <string name="result_x_victory">Vencedor: X</string>
@@ -19,4 +20,14 @@
 
     <string name="suggestion_missed_victory">você perdeu uma chance de ganhar</string>
     <string name="suggestion_missed_defeat">cuidado para não perder!</string>
+
+    <string name="open_drawer">Abrir menu lateral</string>
+    <string name="close_drawer">Fechar menu lateral</string>
+
+    <!-- Settings -->
+    <string name="title_activity_settings">Configurações</string>
+    <string name="record_score">Gravar pontuação</string>
+    <string name="record_score_on">Gravar</string>
+    <string name="record_score_off">Não gravar</string>
+    <string name="reply_title">Default reply action</string>
 </resources>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".activities.TicTacToeActivity"
+        tools:showIn="@layout/activity_tic_tac_toe">
+
+    <TextView
+            android:id="@+id/tvScoreX"
+            style="@style/ScoreText"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="X: 10" />
+
+    <TextView
+            android:id="@+id/tvScoreO"
+            style="@style/ScoreText"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="O: 5" />
+
+    <TextView
+            android:id="@+id/tvInstructions"
+            style="@style/InstructionsText"
+            app:layout_constraintLeft_toRightOf="@id/tvScoreX"
+            app:layout_constraintRight_toLeftOf="@id/tvScoreO"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="@string/instruction_game_start" />
+
+    <com.elihimas.games.pastimes.views.TicTacToeGameView
+            android:id="@+id/gameView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="@dimen/game_view_margin"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvInstructions" />
+
+    <TextView
+            android:id="@+id/tvSuggestion"
+            style="@style/SuggestionText"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/gameView"
+            tools:text="@string/suggestion_missed_victory" />
+
+    <Button
+            android:id="@+id/btReset"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/restart_game"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

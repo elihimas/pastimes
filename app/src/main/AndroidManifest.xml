@@ -19,6 +19,9 @@
         <activity
                 android:name=".activities.FirstSetupActivity"
                 android:screenOrientation="portrait" />
+        <activity
+                android:name=".activities.SettingsActivity"
+                android:label="@string/title_activity_settings" />
         <activity android:name=".activities.StarterActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

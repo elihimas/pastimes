@@ -1,17 +1,20 @@
 package com.elihimas.games.pastimes.activities
 
+import android.R.id.toggle
 import android.os.Bundle
-import android.view.Menu
 import android.view.MenuItem
+import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.core.view.GravityCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.elihimas.games.pastimes.R
 import com.elihimas.games.pastimes.model.GameMode
 import com.elihimas.games.pastimes.viewmodel.TicTacToeGameViewModel
 import kotlinx.android.synthetic.main.activity_tic_tac_toe.*
-
+import kotlinx.android.synthetic.main.tic_tac_toe_game.*
 import java.util.*
 import kotlin.concurrent.schedule
+
 
 class TicTacToeActivity : BasePastimesActivity() {
 
@@ -20,10 +23,15 @@ class TicTacToeActivity : BasePastimesActivity() {
     }
 
     private lateinit var viewModel: TicTacToeGameViewModel
+    private lateinit var actionBarDrawerToggle: ActionBarDrawerToggle
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_tic_tac_toe)
+
+        supportActionBar?.apply {
+            //            setHomeAsUpIndicator(R.drawable.menu_icon)
+        }
 
         init()
     }
@@ -31,6 +39,18 @@ class TicTacToeActivity : BasePastimesActivity() {
     private fun init() {
         fun initControls() {
             btReset.setOnClickListener { reset() }
+            navigation.setNavigationItemSelectedListener(::onNavItemSelected)
+
+            supportActionBar?.setDisplayHomeAsUpEnabled(true)
+            supportActionBar?.setHomeButtonEnabled(true)
+            actionBarDrawerToggle = ActionBarDrawerToggle(
+                this,
+                drawer_layout,
+                R.string.open_drawer,
+                R.string.close_drawer
+            )
+            drawer_layout.addDrawerListener(actionBarDrawerToggle)
+            actionBarDrawerToggle.syncState()
         }
 
         fun initViewModel() {
@@ -58,22 +78,33 @@ class TicTacToeActivity : BasePastimesActivity() {
         initViewModel()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.tic_tac_toe_menu, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val gameMode = when (item.itemId) {
-            R.id.menu_item_mode_easy -> GameMode.EASY
-            R.id.menu_item_mode_medium -> GameMode.MEDIUM
-            R.id.menu_item_mode_impossible -> GameMode.IMPOSSIBLE
-            R.id.menu_item_mode_other_player -> GameMode.OTHER_PLAYER
-            R.id.menu_item_mode_leaning -> GameMode.LEARNING
-            else -> throw IllegalStateException("not implemented for ${item.title}")
+    override fun onOptionsItemSelected(item: MenuItem) =
+        if (actionBarDrawerToggle.onOptionsItemSelected(item)) {
+            true
+        } else {
+            super.onOptionsItemSelected(item)
         }
 
-        viewModel.changeGameMode(gameMode)
+    private fun onNavItemSelected(item: MenuItem): Boolean {
+        drawer_layout.closeDrawer(GravityCompat.START)
+
+        fun handleDifficultyChange() {
+            val gameMode = when (item.itemId) {
+                R.id.menu_item_mode_easy -> GameMode.EASY
+                R.id.menu_item_mode_medium -> GameMode.MEDIUM
+                R.id.menu_item_mode_impossible -> GameMode.IMPOSSIBLE
+                R.id.menu_item_mode_other_player -> GameMode.OTHER_PLAYER
+                R.id.menu_item_mode_leaning -> GameMode.LEARNING
+                else -> throw IllegalStateException("not implemented for ${item.title}")
+            }
+
+            viewModel.changeGameMode(gameMode)
+        }
+
+        when {
+            item.itemId == R.id.menu_item_settings -> SettingsActivity.start(this)
+            else -> handleDifficultyChange()
+        }
 
         return true
     }

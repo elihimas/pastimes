@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/nav_header_height"
+        android:background="@color/colorPrimaryDark"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+    <View
+            android:layout_width="@dimen/nav_header_height"
+            android:layout_height="@dimen/nav_header_height"
+            android:background="@drawable/x_icon" />
+
+    <View
+            android:layout_width="@dimen/tic_tac_toe_nav_header_items_spacing"
+            android:layout_height="0dp" />
+
+    <View
+            android:layout_width="@dimen/nav_header_height"
+            android:layout_height="@dimen/nav_header_height"
+            android:background="@drawable/o_icon" />
+</LinearLayout>
