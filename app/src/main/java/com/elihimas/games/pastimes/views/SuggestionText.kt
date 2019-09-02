@@ -1,9 +1,9 @@
 package com.elihimas.games.pastimes.views
 
-import android.app.Activity
 import android.content.Context
 import android.util.AttributeSet
 import android.widget.TextView
+import com.elihimas.games.pastimes.activities.BasePastimesActivity
 import java.util.*
 import kotlin.concurrent.schedule
 
@@ -22,7 +22,7 @@ class SuggestionText(context: Context, attrs: AttributeSet?) : TextView(context,
 
         currentScheduler?.cancel()
         currentScheduler = timer.schedule(SUGGESTION_DISPLAY_TIME) {
-            (context as Activity).runOnUiThread {
+            (context as BasePastimesActivity).runOnUiThread {
                 text = ""
             }
         }

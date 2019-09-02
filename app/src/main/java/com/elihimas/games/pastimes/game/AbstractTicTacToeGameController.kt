@@ -24,7 +24,6 @@ abstract class AbstractTicTacToeGameController(
     @Inject
     lateinit var preferences: PastimesPreferences
 
-
     init {
         injectDagger()
 

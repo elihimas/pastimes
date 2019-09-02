@@ -7,19 +7,20 @@ import androidx.core.view.GravityCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.elihimas.games.pastimes.R
+import com.elihimas.games.pastimes.game.SettingsChangeCallbacks
+import com.elihimas.games.pastimes.game.SettingsObserver
 import com.elihimas.games.pastimes.model.GameMode
 import com.elihimas.games.pastimes.viewmodel.TicTacToeGameViewModel
+import com.elihimas.games.pastimes.views.hideWithAnimation
+import com.elihimas.games.pastimes.views.showWithAnimation
 import kotlinx.android.synthetic.main.activity_tic_tac_toe.*
 import kotlinx.android.synthetic.main.tic_tac_toe_game.*
-import java.util.*
-import kotlin.concurrent.schedule
 
 
-class TicTacToeActivity : BasePastimesActivity() {
-
+class TicTacToeActivity : BasePastimesActivity(), SettingsChangeCallbacks {
     private lateinit var viewModel: TicTacToeGameViewModel
-    private lateinit var actionBarDrawerToggle: ActionBarDrawerToggle
 
+    private lateinit var actionBarDrawerToggle: ActionBarDrawerToggle
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_tic_tac_toe)
@@ -63,8 +64,23 @@ class TicTacToeActivity : BasePastimesActivity() {
                 }
         }
 
+        fun initLifecycleObservers() {
+            lifecycle.addObserver(SettingsObserver(this))
+        }
+
         initUIControls()
         initViewModel()
+        initLifecycleObservers()
+    }
+
+    override fun startRecordingScore() {
+        tvScoreX.showWithAnimation()
+        tvScoreO.showWithAnimation()
+    }
+
+    override fun stopRecordingScore() {
+        tvScoreX.hideWithAnimation()
+        tvScoreO.hideWithAnimation()
     }
 
     override fun onOptionsItemSelected(item: MenuItem) =

@@ -3,6 +3,7 @@ package com.elihimas.games.pastimes.preferences
 import android.content.Context
 import androidx.core.content.edit
 import androidx.preference.PreferenceManager
+import com.elihimas.games.pastimes.game.Settings
 import com.elihimas.games.pastimes.model.GameMode
 import javax.inject.Inject
 
@@ -39,5 +40,7 @@ class PastimesPreferences @Inject constructor(context: Context) {
     }
 
     fun getRecordScore() = preferences.getBoolean(RECORD_SCORE, true)
+
+    fun getSettings() = Settings(getRecordScore())
 
 }
