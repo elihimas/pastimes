@@ -3,11 +3,15 @@ package com.elihimas.games.pastimes.views
 import android.view.View
 
 const val ANIMATION_DURATION = 600L
+const val START_DELAY = 300L
+
+private fun View.defaultAnimation()=
+    animate().setDuration(ANIMATION_DURATION).setStartDelay(START_DELAY)
 
 fun View.showWithAnimation() {
-    animate().setDuration(ANIMATION_DURATION).scaleY(1f).alpha(1f)
+    defaultAnimation().scaleY(1f).alpha(1f).start()
 }
 
 fun View.hideWithAnimation() {
-    animate().setDuration(ANIMATION_DURATION).scaleY(0f).alpha(0f)
+    defaultAnimation().scaleY(0f).alpha(0f).start()
 }

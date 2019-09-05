@@ -10,7 +10,8 @@ import kotlin.concurrent.schedule
 class SuggestionText(context: Context, attrs: AttributeSet?) : TextView(context, attrs) {
 
     private companion object {
-        const val SUGGESTION_DISPLAY_TIME = 3000L
+        const val SUGGESTION_DISPLAY_TIME = 2000L
+        const val ANIMATION_DURATION = 300L
     }
 
     private val timer = Timer()
@@ -19,11 +20,12 @@ class SuggestionText(context: Context, attrs: AttributeSet?) : TextView(context,
 
     fun showSuggestion(textResId: Int) {
         setText(textResId)
+        animate().setDuration(ANIMATION_DURATION).scaleX(1.5f).scaleY(1.5f).alpha(1f).start()
 
         currentScheduler?.cancel()
         currentScheduler = timer.schedule(SUGGESTION_DISPLAY_TIME) {
             (context as BasePastimesActivity).runOnUiThread {
-                text = ""
+                animate().setDuration(ANIMATION_DURATION).scaleX(1f).scaleY(1f).alpha(0f).start()
             }
         }
 

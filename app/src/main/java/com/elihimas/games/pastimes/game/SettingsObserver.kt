@@ -7,7 +7,8 @@ import com.elihimas.games.pastimes.PastimesApplication
 import com.elihimas.games.pastimes.preferences.PastimesPreferences
 import javax.inject.Inject
 
-class SettingsObserver(val settingsChangeCallbacks: SettingsChangeCallbacks) : LifecycleObserver {
+class SettingsObserver(private val settingsChangeCallbacks: SettingsChangeCallbacks) :
+    LifecycleObserver {
 
     @Inject
     lateinit var preferences: PastimesPreferences
@@ -15,7 +16,6 @@ class SettingsObserver(val settingsChangeCallbacks: SettingsChangeCallbacks) : L
 
     init {
         PastimesApplication.appComponent.inject(this)
-
         settings = preferences.getSettings()
 
         if (settings.recordScore) {
