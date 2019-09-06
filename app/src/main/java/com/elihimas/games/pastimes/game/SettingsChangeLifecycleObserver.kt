@@ -7,7 +7,7 @@ import com.elihimas.games.pastimes.PastimesApplication
 import com.elihimas.games.pastimes.preferences.PastimesPreferences
 import javax.inject.Inject
 
-class SettingsObserver(private val settingsChangeCallbacks: SettingsChangeCallbacks) :
+class SettingsChangeLifecycleObserver(private val settingsChangeCallbacks: SettingsChangeCallbacks) :
     LifecycleObserver {
 
     @Inject

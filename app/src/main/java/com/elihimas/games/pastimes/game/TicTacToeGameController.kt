@@ -4,7 +4,9 @@ import com.elihimas.games.pastimes.PastimesApplication
 import com.elihimas.games.pastimes.R
 import com.elihimas.games.pastimes.model.*
 
-data class Score(val xVictoryCount: Int, val oVictoryCount: Int)
+data class Score(val xVictoryCount: Int, val oVictoryCount: Int) {
+    constructor() : this(0, 0)
+}
 
 data class GameResult(val cells: List<TicTacToeCell>?, val winnerSymbol: TicTacToeSymbol)
 
@@ -13,7 +15,7 @@ class TicTacToeGameController(
     gameTable: TicTacToeTable,
     gameMode: GameMode
 ) :
-    AbstractTicTacToeGameController(ticTacToeResultPublisher, gameTable,gameMode) {
+    AbstractTicTacToeGameController(ticTacToeResultPublisher, gameTable, gameMode) {
 
     override fun injectDagger() {
         PastimesApplication.appComponent.inject(this)

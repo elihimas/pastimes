@@ -75,4 +75,9 @@ class TicTacToeGameViewModel : ViewModel(), TicTacToeResultPublisher {
     override fun publishSuggestion(suggestion: Suggestion) {
         this.suggestion.value = suggestion
     }
+
+    fun clearScore() {
+        preferences.resetVictoryCount()
+        publishScore(Score())
+    }
 }

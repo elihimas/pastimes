@@ -6,18 +6,25 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.elihimas.games.pastimes.PastimesApplication
 import com.elihimas.games.pastimes.R
 import com.elihimas.games.pastimes.game.SettingsChangeCallbacks
-import com.elihimas.games.pastimes.game.SettingsObserver
+import com.elihimas.games.pastimes.game.SettingsChangeLifecycleObserver
 import com.elihimas.games.pastimes.model.GameMode
+import com.elihimas.games.pastimes.preferences.PastimesPreferences
 import com.elihimas.games.pastimes.viewmodel.TicTacToeGameViewModel
 import com.elihimas.games.pastimes.views.hideWithAnimation
 import com.elihimas.games.pastimes.views.showWithAnimation
 import kotlinx.android.synthetic.main.activity_tic_tac_toe.*
+import kotlinx.android.synthetic.main.settings_activity.*
 import kotlinx.android.synthetic.main.tic_tac_toe_game.*
+import javax.inject.Inject
 
 
 class TicTacToeActivity : BasePastimesActivity(), SettingsChangeCallbacks {
+
+    @Inject
+    lateinit var preferences: PastimesPreferences
     private lateinit var viewModel: TicTacToeGameViewModel
 
     private lateinit var actionBarDrawerToggle: ActionBarDrawerToggle
@@ -46,6 +53,8 @@ class TicTacToeActivity : BasePastimesActivity(), SettingsChangeCallbacks {
                 drawer_layout.addDrawerListener(toggle)
                 toggle.syncState()
             }
+
+            verifyClearMenuItemVisibility()
         }
 
         fun initViewModel() {
@@ -65,7 +74,7 @@ class TicTacToeActivity : BasePastimesActivity(), SettingsChangeCallbacks {
         }
 
         fun initLifecycleObservers() {
-            lifecycle.addObserver(SettingsObserver(this))
+            lifecycle.addObserver(SettingsChangeLifecycleObserver(this))
         }
 
         initUIControls()
@@ -73,14 +82,21 @@ class TicTacToeActivity : BasePastimesActivity(), SettingsChangeCallbacks {
         initLifecycleObservers()
     }
 
+    fun verifyClearMenuItemVisibility() {
+        val settings = preferences.getSettings()
+        navigation.menu.findItem(R.id.menu_item_clear_score).isVisible = settings.recordScore
+    }
+
     override fun startRecordingScore() {
         tvScoreX.showWithAnimation()
         tvScoreO.showWithAnimation()
+        verifyClearMenuItemVisibility()
     }
 
     override fun stopRecordingScore() {
         tvScoreX.hideWithAnimation()
         tvScoreO.hideWithAnimation()
+        verifyClearMenuItemVisibility()
     }
 
     override fun onOptionsItemSelected(item: MenuItem) =
@@ -106,10 +122,10 @@ class TicTacToeActivity : BasePastimesActivity(), SettingsChangeCallbacks {
             viewModel.changeGameMode(gameMode)
         }
 
-        if (item.itemId == R.id.menu_item_settings) {
-            SettingsActivity.start(this)
-        } else {
-            handleDifficultyChange()
+        when {
+            item.itemId == R.id.menu_item_settings -> SettingsActivity.start(this)
+            item.itemId == R.id.menu_item_clear_score -> viewModel.clearScore()
+            else -> handleDifficultyChange()
         }
 
         return true
@@ -120,6 +136,6 @@ class TicTacToeActivity : BasePastimesActivity(), SettingsChangeCallbacks {
     }
 
     override fun injectDagger() {
-        //nothing to do
+        PastimesApplication.appComponent.inject(this)
     }
 }

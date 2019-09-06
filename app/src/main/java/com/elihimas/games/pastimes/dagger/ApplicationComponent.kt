@@ -2,8 +2,9 @@ package com.elihimas.games.pastimes.dagger
 
 import com.elihimas.games.pastimes.activities.FirstSetupActivity
 import com.elihimas.games.pastimes.activities.StarterActivity
+import com.elihimas.games.pastimes.activities.TicTacToeActivity
 import com.elihimas.games.pastimes.game.AbstractTicTacToeGameController
-import com.elihimas.games.pastimes.game.SettingsObserver
+import com.elihimas.games.pastimes.game.SettingsChangeLifecycleObserver
 import com.elihimas.games.pastimes.viewmodel.TicTacToeGameViewModel
 import dagger.Component
 import javax.inject.Singleton
@@ -18,5 +19,6 @@ interface ApplicationComponent {
     fun inject(firstSetupActivity: FirstSetupActivity)
     fun inject(abstractTicTacToeGameController: AbstractTicTacToeGameController)
     fun inject(ticTacToeGameViewModel: TicTacToeGameViewModel)
-    fun inject(settingsObserver: SettingsObserver)
+    fun inject(settingsChangeLifecycleObserver: SettingsChangeLifecycleObserver)
+    fun inject(ticTacToeActivity: TicTacToeActivity)
 }

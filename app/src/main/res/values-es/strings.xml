@@ -7,6 +7,7 @@
     <string name="mode_other_player">Jugar con otra persona</string>
     <string name="mode_learn">Modo de aprendizado</string>
     <string name="settings">Configurações</string>
+    <string name="clear_score">Limpiar putaje</string>
 
     <string name="result_o_victory">Ganador: O</string>
     <string name="result_x_victory">Ganador: x</string>
